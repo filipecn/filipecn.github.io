@@ -124,6 +124,50 @@ document.getElementById('rimPowerValueInput').addEventListener('change',function
 	e.preventDefault();},false);
 });
 */
+
+// Check for the various File API support.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+// Great success! All the File APIs are supported.
+} else {
+	alert('The File APIs are not fully supported in this browser.');
+}
+var f;
+function handleFileSelect(evt) {
+ 	var files = evt.target.files; // FileList object
+
+ 	// files is a FileList of File objects. List some properties.
+ 	var output = [];
+ 	for (var i = 0; f = files[i]; i++) {
+ 		output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+   		f.size, ' bytes, last modified: ',
+   		f.lastModifiedDate.toLocaleDateString(), '</li>');
+
+ 		if (f) {
+      		var r = new FileReader();
+      		r.onload = function(e) { 
+	      		var contents = e.target.result;
+        		alert( 
+        			"Got the file.n" 
+             		/*+"name: " + f.name + "n"
+              		+"type: " + f.type + "n"
+              		+"size: " + f.size + " bytesn"*/
+              		+ "starts with: " + contents.substr(1, contents.indexOf("n"))
+        		
+        		);  
+
+        		console.log(contents);
+      		}
+      		r.readAsText(f);
+    	} else { 
+      		alert("Failed to load file");
+    	}
+   	}
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+}
+
+document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+
 var noise=new ImprovedNoise();
 var isSafari=/Safari/.test(navigator.userAgent)&&/Apple Computer/.test(navigator.vendor);
 var renderer,scene,camera,mesh,fov=120,nfov=45,sphereMaterial,material,start=Date.now(),
