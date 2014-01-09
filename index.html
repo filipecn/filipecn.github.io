@@ -205,6 +205,41 @@ try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:1387839881,byc:0,owlid
 	#credits p{
 		margin-bottom:5px
 	}
+
+	  #progress_bar {
+    margin: 10px 0;
+    padding: 3px;
+    border-color: #fff;
+    border-width: 2px;
+	border-style: dashed;
+    font-size: 14px;
+    clear: both;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+  }
+  #progress_bar.loading {
+    opacity: 1.0;
+  }
+  #progress_bar .percent {
+    background-color: #99ccff;
+    height: auto;
+    width: 0;
+  }
+
+    #drop_zone {
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #fff;
+    font-size: 14px;
+    clear: both;
+    opacity: 1;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+  }
+
 </style>
 		<link rel="stylesheet" type="text/css" href="http://www.clicktorelease.com/code/spherical-normal-mapping/A.buttons.css+spinner.css,Mcc.MXDdy_lXsu.css.pagespeed.cf.UwOfRYJ5R4.css" media="all"/>
 
@@ -260,8 +295,9 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 
 			<div id="optionsContent">
 
-			<input type="file" id="files" name="files[]" multiple />
-			<output id="list"></output>
+			<input type="file" id="files" name="file" />
+			<button onclick="abortRead();">Cancel read</button>
+			<div id="progress_bar"><div class="percent">0%</div></div>
 			
 			<!--	<h1>What to do</h1>
 				<p>You can press the gear button to pin the panel open. Play around selecting <b>texture</b> maps, <b>normal</b> maps to add bumpiness, and different <b>models</b>. There's lot of additional options to tweak, and you can even take <b>snapshots</b> to share. Enjoy, and don't forget to try it on your Android phone!</p><br/>
@@ -321,9 +357,9 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 		</div>
 
 <script src="http://www.clicktorelease.com/code/spherical-normal-mapping/js/Three.SubdivisionModifier.js.pagespeed.jm.XO3-cV0kOK.js"></script>
--->
-<script src="http://www.clicktorelease.com/code/spherical-normal-mapping/js/Three.js.pagespeed.jm.EHRYmpML6O.js"></script>
 
+<script src="http://www.clicktorelease.com/code/spherical-normal-mapping/js/Three.js.pagespeed.jm.EHRYmpML6O.js"></script>
+-->
 <script>//<![CDATA[
 Detector={canvas:!!window.CanvasRenderingContext2D,webgl:(function(){try{return!!window.WebGLRenderingContext&&!!document.createElement('canvas').getContext('experimental-webgl');}catch(e){return false;}})(),workers:!!window.Worker,fileapi:window.File&&window.FileReader&&window.FileList&&window.Blob,getWebGLErrorMessage:function(){var element=document.createElement('div');element.id='webgl-error-message';element.style.fontFamily='monospace';element.style.fontSize='13px';element.style.fontWeight='normal';element.style.textAlign='center';element.style.background='#fff';element.style.color='#000';element.style.padding='1.5em';element.style.width='400px';element.style.margin='5em auto 0';if(!this.webgl){element.innerHTML=window.WebGLRenderingContext?['Your graphics card does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">WebGL</a>.<br />','Find out how to get it <a href="http://get.webgl.org/" style="color:#000">here</a>.'].join('\n'):['Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">WebGL</a>.<br/>','Find out how to get it <a href="http://get.webgl.org/" style="color:#000">here</a>.'].join('\n');}
 return element;},addGetWebGLMessage:function(parameters){var parent,id,element;parameters=parameters||{};parent=parameters.parent!==undefined?parameters.parent:document.body;id=parameters.id!==undefined?parameters.id:'oldie';element=Detector.getWebGLErrorMessage();element.id=id;parent.appendChild(element);}};
@@ -495,7 +531,10 @@ void main() {
 	}
 	
 	</script>
-	
+
+<script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+<!--<script src="three.min.js"></script>
+--><script src="PLYLoader.js"></script>
 <script src="meshcurve.js"></script>
 	</body>
 </html>
