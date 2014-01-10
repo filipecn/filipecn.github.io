@@ -125,99 +125,16 @@ document.getElementById('rimPowerValueInput').addEventListener('change',function
 });
 */
 
-// Check for the various File API support.
-if (window.File && window.FileReader && window.FileList && window.Blob) {
-// Great success! All the File APIs are supported.
-} else {
-	alert('The File APIs are not fully supported in this browser.');
-}
-
-
-  var reader;
-  var progress = document.querySelector('.percent');
-
-  function abortRead() {
-    reader.abort();
-  }
-
-  function errorHandler(evt) {
-    switch(evt.target.error.code) {
-      case evt.target.error.NOT_FOUND_ERR:
-        alert('File Not Found!');
-        break;
-      case evt.target.error.NOT_READABLE_ERR:
-        alert('File is not readable');
-        break;
-      case evt.target.error.ABORT_ERR:
-        break; // noop
-      default:
-        alert('An error occurred reading this file.');
-    };
-  }
-
-  function updateProgress(evt) {
-    // evt is an ProgressEvent.
-    if (evt.lengthComputable) {
-      var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-      // Increase the progress bar length.
-      if (percentLoaded < 100) {
-        progress.style.width = percentLoaded + '%';
-        progress.textContent = percentLoaded + '%';
-      }
-    }
-  }
-
-  function handleFileSelect(evt) {
-    // Reset progress indicator on new file selection.
-    progress.style.width = '0%';
-    progress.textContent = '0%';
-
-    reader = new FileReader();
-    reader.onerror = errorHandler;
-    reader.onprogress = updateProgress;
-    reader.onabort = function(e) {
-      alert('File read cancelled');
-    };
-    reader.onloadstart = function(e) {
-      document.getElementById('progress_bar').className = 'loading';
-    };
-    reader.onload = function(e) {
-      // Ensure that the progress bar displays 100% at the end.
-      progress.style.width = '100%';
-      progress.textContent = '100%';
-      setTimeout("document.getElementById('progress_bar').className='';", 2000);
-
-
-
-      var contents = e.target.result;
-
-        		var loader = new THREE.PLYLoader();
-				var geometry = loader.parse(contents);
-				var material = new THREE.MeshPhongMaterial( { ambient: 0x0055ff, color: 0x0055ff, specular: 0x111111, shininess: 200 } );
-					var mesh = new THREE.Mesh( geometry, material );
-
-					mesh.position.set( 0, - 0.25, 0 );
-					mesh.rotation.set( 0, - Math.PI / 2, 0 );
-					mesh.scale.set( 0.001, 0.001, 0.001 );
-
-					mesh.castShadow = true;
-					mesh.receiveShadow = true;
-
-					scene.add( mesh );
-
-    }
-	
-	reader.readAsText(evt.target.files[0]);
-  }
-
-  document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
 var noise=new ImprovedNoise();
 var isSafari=/Safari/.test(navigator.userAgent)&&/Apple Computer/.test(navigator.vendor);
 var renderer,scene,camera,mesh,fov=120,nfov=45,sphereMaterial,material,start=Date.now(),
 onMouseDownMouseX=0,onMouseDownMouseY=0,lon=90,nlon=110,onMouseDownLon=0,lat=0,nlat=17,onMouseDownLat=0,phi=0,
 theta=0,renderNoise=.04,nRenderNoise=.04,CSSAntialias=false,useScreenBlend=false,lat=15,isUserInteracting=false,
 onPointerDownPointerX,onPointerDownPointerY,onPointerDownLon,onPointerDownLat,optionsPinned=false;
+
+
+
+
 /*
 var optionsPanel=document.getElementById('options');
 var modelButtons=[].slice.call(document.querySelectorAll('#geometryList li a'),0);
@@ -536,3 +453,167 @@ function render(){
 	renderer.render(scene,camera);
 	requestAnimationFrame(render);
 }
+
+
+// Check for the various File API support.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+// Great success! All the File APIs are supported.
+} else {
+	alert('The File APIs are not fully supported in this browser.');
+}
+
+
+  var reader;
+  var progress = document.querySelector('.percent');
+
+  function abortRead() {
+    reader.abort();
+  }
+
+  function errorHandler(evt) {
+    switch(evt.target.error.code) {
+      case evt.target.error.NOT_FOUND_ERR:
+        alert('File Not Found!');
+        break;
+      case evt.target.error.NOT_READABLE_ERR:
+        alert('File is not readable');
+        break;
+      case evt.target.error.ABORT_ERR:
+        break; // noop
+      default:
+        alert('An error occurred reading this file.');
+    };
+  }
+
+  function updateProgress(evt) {
+    // evt is an ProgressEvent.
+    if (evt.lengthComputable) {
+      var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+      // Increase the progress bar length.
+      if (percentLoaded < 100) {
+        progress.style.width = percentLoaded + '%';
+        progress.textContent = percentLoaded + '%';
+      }
+    }
+  }
+
+  function loadMesh(contents, name){
+  	
+	if(name.indexOf(".ply") >= 0){
+		var loader = new THREE.PLYLoader();
+		
+		var geometry = loader.parse(contents);
+		var material = new THREE.MeshPhongMaterial( { ambient: 0x0055ff, color: 0x0055ff, specular: 0x111111, shininess: 200 } );
+		var mesh = new THREE.Mesh( geometry, material );
+		geometry.computeBoundingSphere();
+		var s = 10 / geometry.boundingSphere.radius;
+		console.log(s);
+		//mesh.position.set( 0, - 0.25, 0 );
+		//mesh.rotation.set( 0, - Math.PI / 2, 0 );
+		mesh.scale.set( s, s, s );
+
+		//mesh.castShadow = true;
+		//mesh.receiveShadow = true;
+
+		scene.add( mesh );
+	}
+	else if(name.indexOf(".obj") >= 0){
+		var loader = new THREE.OBJLoader();
+		//THREE.Object3D();
+		var mesh = loader.parse(contents).children[0];
+		mesh.geometry.computeBoundingSphere();
+		var s = 10 / mesh.geometry.boundingSphere.radius;
+		console.log(s);
+		mesh.scale.set( s, s, s );
+		scene.add(mesh);
+	}
+	else if(name.indexOf(".vtk") >= 0){
+		var loader = new THREE.VTKLoader();
+		var geometry = loader.parse(contents);
+		var material = new THREE.MeshPhongMaterial( { ambient: 0x0055ff, color: 0x0055ff, specular: 0x111111, shininess: 200 } );
+		var mesh = new THREE.Mesh( geometry, material );
+
+		geometry.computeBoundingSphere();
+		var s = 10 / geometry.boundingSphere.radius;
+		console.log(s);
+		//mesh.position.set( 0, - 0.25, 0 );
+		//mesh.rotation.set( 0, - Math.PI / 2, 0 );
+		mesh.scale.set( s, s, s );
+
+		//mesh.castShadow = true;
+		//mesh.receiveShadow = true;
+
+		scene.add( mesh );
+	} 
+  }
+
+  function handleFileSelect(evt) {
+
+    // Reset progress indicator on new file selection.
+    progress.style.width = '0%';
+    progress.textContent = '0%';
+
+    reader = new FileReader();
+    reader.onerror = errorHandler;
+    reader.onprogress = updateProgress;
+    reader.onabort = function(e) {
+      alert('File read cancelled');
+    };
+    reader.onloadstart = function(e) {
+      document.getElementById('progress_bar').className = 'loading';
+    };
+    reader.onload = function(e) {
+      // Ensure that the progress bar displays 100% at the end.
+      progress.style.width = '100%';
+      progress.textContent = '100%';
+      setTimeout("document.getElementById('progress_bar').className='';", 2000);
+
+      loadMesh(e.target.result, evt.target.files[0].name);
+    }
+	
+	reader.readAsText(evt.target.files[0]);
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+function handleFileDropSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var files = evt.dataTransfer.files; // FileList object.
+
+// Reset progress indicator on new file selection.
+    progress.style.width = '0%';
+    progress.textContent = '0%';
+
+    reader = new FileReader();
+    reader.onerror = errorHandler;
+    reader.onprogress = updateProgress;
+    reader.onabort = function(e) {
+      alert('File read cancelled');
+    };
+    reader.onloadstart = function(e) {
+      document.getElementById('progress_bar').className = 'loading';
+    };
+    reader.onload = function(e) {
+      // Ensure that the progress bar displays 100% at the end.
+      progress.style.width = '100%';
+      progress.textContent = '100%';
+      setTimeout("document.getElementById('progress_bar').className='';", 1000);
+
+      loadMesh(e.target.result, files[0].name);
+    }
+	
+	reader.readAsText(files[0]);
+}
+
+function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  }
+
+// Setup the dnd listeners.
+  var dropZone = document.getElementById('drop_zone');
+  dropZone.addEventListener('dragover', handleDragOver, false);
+  dropZone.addEventListener('drop', handleFileDropSelect, false);
