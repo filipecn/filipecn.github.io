@@ -23,9 +23,9 @@ github: filipecn # username
 twitter: fuiripecn
 linkedin: filipe-cn-a869084a
 
-paginate:         5
+# paginate:         5
 # Dependencies
-markdown:         redcarpet
+# markdown:         redcarpet
 highlighter:      pygments
 gems: [jekyll-gist]
 baseurl:          /
