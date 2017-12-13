@@ -59,10 +59,16 @@ title: Home
 
     <hr />
 
-    <h2><img class="pull-left myclass" src="https://filipecn.files.wordpress.com/2015/07/f2d.png" alt="f2d" width="168" height="229" />2D Smoke Simulator</h2>
+    <img class="pull-left myclass" src="{{ site.baseurl }}static/img/lic.png" alt="f2d" width="229" height="229" />
+		<img class="pull-left myclass" src="{{ site.baseurl }}static/img/partflow.png" alt="f2d" width="229" height="229" />
+	<a href="https://github.com/filipecn/field-vis">	Vector Field Visualizations</a><br>
+    Flow visualizations tool using OpenGL's compute shaders.
+</div>
+<div class="col-md-12">
+
+    <img class="pull-left myclass" src="https://filipecn.files.wordpress.com/2015/07/f2d.png" alt="f2d" width="168" height="229" />2D Smoke Simulator<br>
     Semi-Lagrangian simulation of smoke using GLSL.
 </div>
-
 
 <div class="col-md-12">
     <hr />
