@@ -2,46 +2,50 @@ $( document ).ready(function() {
 var $window = $(window);
 // Make an instance of two and place it on the page.
 var elem = document.getElementById('myCanvas');
-var params = { width: 500, height: 200, autostart: true };
+var params = { width: 1000, height: 600, autostart: true };
 var two = new Two(params).appendTo(elem);
 var background = two.makeGroup();
 var foreground = two.makeGroup();
 
-var grid = new GRID.Grid(two, 50, two.width / 2, two.height / 2);
+var grid = new GRID.Grid(two, 50, two.width, two.height);
 
-var polygon = new POLYGON.PolygonObject(two, POLYGON.createCircle(50, 3));
-polygon.anchors[0].translation.set(two.width / 2, two.height / 2);
-var polygon2 = new POLYGON.PolygonObject(two, POLYGON.createCircle(50, 4));
-polygon2.anchors[0].translation.set(two.width / 2, two.height / 2);
-
-var gjk = new GJK.Gjk(two, polygon, polygon2);
-
-background.add(gjk.group);
-background.add(gjk.simplexGroup);
-
-foreground.add(polygon.mainGroup);
-foreground.add(polygon2.mainGroup);
+points = [];
+points.push(two.makeCircle(400, 300, 5));
+points[0].fill = '#FF0000';
+points[0].noStroke();
+points.push(two.makeCircle(600, 300, 5));
+points[1].fill = '#FF0000';
+points[1].noStroke();
 
 two.update();
 
-addObject(polygon);
-addObject(polygon2);
+var pointsGroup = two.makeGroup(points);
+_.each(points, function(p) {
+  addInteractivity(p);
+});
+
+var levelSet = new LEVELSET.LevelSet(two, 50, two.width / 2, two.height / 2);
+
+two.update();
+
+var mSquares = new MSQUARES.MSquares(two);
+
+  //levelSet.computeDistances(points);
+  //mSquares.update(two, levelSet, [75]);
+two.update();
 
 two.bind('update', function(frameCount) {
-  background.remove(gjk.group);
-  gjk.makeSet(two, polygon, polygon2);
-  background.add(gjk.group);
+  //background.remove(gjk.group);
+  levelSet.computeDistances(points);
+  mSquares.update(two, levelSet, [45, 85, 145, 198], [
+    'rgba(255, 0, 0, 0.6)',
+    'rgba(255, 128, 40, 0.4)',
+    'rgba(255, 128, 40, 0.3)',
+    'rgba(255, 128, 40, 0.2)'
+  ], [8, 6, 5, 3]);
+  //levelSet.computeDistances(points);
+  //background.add(gjk.group);
 }).play();
-
-function addObject(o) {
-  _.each(o.points, function(p) {
-    addInteractivity(p);
-  });
-
-  _.each(o.anchors, function(p) {
-    addInteractivity(p);
-  });
-}
 
 function addInteractivity(shape) {
   var offset = shape.parent.translation;
@@ -49,7 +53,7 @@ function addInteractivity(shape) {
     e.preventDefault();
     var x = e.pageX - offset.x - $('#myCanvas').offset().left;
     var y = e.pageY - offset.y - $('#myCanvas').offset().top;
-    shape.translation.set(x, y);
+    shape.translation.set(Math.round(x / levelSet.h) * levelSet.h, Math.round(y / levelSet.h) * levelSet.h);
   };
   var touchDrag = function(e) {
     e.preventDefault();
@@ -92,6 +96,5 @@ function addInteractivity(shape) {
       return false;
     });
 }
-
 
 });

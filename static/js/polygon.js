@@ -197,6 +197,132 @@ GJK.Gjk.prototype.makeSet = function(two, p1, p2) {
   //this.group.add(points);
 }
 
+var LEVELSET = {};
+
+LEVELSET.LevelSet = function(two, size, ox, oy) {
+  var w = two.width;
+  var h = two.height;
+  var k = 2;
+  this.wsize = w / size;
+  this.hsize = h / size;
+  this.h = size;
+  this.m = [];
+  for(var r = 0; r < this.hsize; r++)
+    this.m[r] = [];
+  for(var r = 0; r < this.hsize; r++)
+    for(var c = 0; c < this.wsize; c++)
+      this.m[r][c] = 1000;
+};
+
+LEVELSET.LevelSet.prototype.computeDistances = function(points) {
+  for(var r = 0; r < this.hsize; r++)
+    for(var c = 0; c < this.wsize; c++)
+      this.m[r][c] = 10000;
+  // set initial distances
+  var T = this;
+  _.each(points, function(point) {
+    var col = Math.round(point.translation.x / T.h);
+    var row = Math.round(point.translation.y / T.h);
+    col = Math.max(0, Math.min(col, T.wsize - 1));
+    row = Math.max(0, Math.min(row, T.hsize - 1));
+    T.m[row][col] = 0;
+  });
+    // fast sweeping
+    var lim = [[0,              this.wsize, 0,              this.hsize],
+               [this.wsize - 1,         -1, 0,              this.hsize],
+               [this.wsize - 1,         -1, this.hsize - 1,         -1],
+               [0,              this.wsize, this.hsize - 1,         -1]];
+
+    for(var l = 0; l < 4; l++) {
+      var idir = 1, jdir = 1;
+      if(lim[l][0] > lim[l][1])
+        idir = -idir;
+      if(lim[l][2] > lim[l][3])
+        jdir = -jdir;
+      for(var i = lim[l][0]; i != lim[l][1]; i += idir)
+        for(var j = lim[l][2]; j != lim[l][3]; j += jdir) {
+          if(jdir > 0 && j > 0)
+            this.m[j][i] = Math.min(this.m[j][i], this.m[j - 1][i] + this.h);
+          if(jdir < 0 && j < this.hsize - 1)
+            this.m[j][i] = Math.min(this.m[j][i], this.m[j + 1][i] + this.h);
+          if(idir > 0 && i > 0)
+            this.m[j][i] = Math.min(this.m[j][i], this.m[j][i - 1] + this.h);
+          if(idir < 0 && i < this.wsize - 1)
+            this.m[j][i] = Math.min(this.m[j][i], this.m[j][i + 1] + this.h);
+        }
+    }
+  /*for(var i = 0; i < this.hsize; i++) {
+      var str = "row\t";
+      for(var j = 0; j < this.wsize; j++)
+        str += this.m[i][j] + "\t";
+      console.log(str);
+    }*/
+};
+
+function interp(fa, fb, fc, a, b) {
+  return (fc - fa) * (b - a) / (fb - fa) + a;
+}
+
+var MSQUARES = {};
+
+MSQUARES.MSquares = function(two) {
+  this.group = two.makeGroup();
+  this.points = [];
+};
+
+MSQUARES.MSquares.prototype.update = function(two, levelSet, l, colors, strokes) {
+  if(this.points.length > 0) {
+    for(var i = 0; i < this.points.length; i++)
+      this.group.remove(this.points[i]);
+    for(var i = 0; i < this.lines.length; i++)
+      this.group.remove(this.lines[i]);
+  }
+  two.remove(this.group);
+  this.group.remove();
+  this.points = [];
+  this.lines = [];
+  // main axis
+  for(var i = 0; i < l.length; i++)
+    for(var r = 0; r < levelSet.hsize - 1; r++)
+      for(var c = 0; c < levelSet.wsize - 1; c++) {
+        var vertices = [];
+        if(levelSet.m[r][c] <= l[i] && levelSet.m[r + 1][c] > l[i] ||
+           levelSet.m[r][c] >= l[i] && levelSet.m[r + 1][c] < l[i]) {
+          vertices.push([c * levelSet.h, interp(levelSet.m[r][c], levelSet.m[r + 1][c], l[i], r * levelSet.h, (r + 1) * levelSet.h)]);
+          //this.points.push(two.makeCircle(vertices[vertices.length - 1][0], vertices[vertices.length - 1][1], 5));
+        }
+        if(levelSet.m[r][c] <= l[i] && levelSet.m[r][c + 1] > l[i] ||
+           levelSet.m[r][c] >= l[i] && levelSet.m[r][c + 1] < l[i]) {
+          vertices.push([interp(levelSet.m[r][c], levelSet.m[r][c + 1], l[i], c * levelSet.h, (c + 1) * levelSet.h), r * levelSet.h]);
+          //this.points.push(two.makeCircle(vertices[vertices.length - 1][0], vertices[vertices.length - 1][1], 5));
+        }
+        if(levelSet.m[r][c + 1] <= l[i] && levelSet.m[r + 1][c + 1] > l[i] ||
+           levelSet.m[r][c + 1] >= l[i] && levelSet.m[r + 1][c + 1] < l[i]) {
+          vertices.push([(c + 1) * levelSet.h, interp(levelSet.m[r][c + 1], levelSet.m[r + 1][c + 1], l[i], r * levelSet.h, (r + 1) * levelSet.h)]);
+          //this.points.push(two.makeCircle(vertices[vertices.length - 1][0], vertices[vertices.length - 1][1], 5));
+        }
+        if(levelSet.m[r + 1][c] <= l[i] && levelSet.m[r + 1][c + 1] > l[i] ||
+           levelSet.m[r + 1][c] >= l[i] && levelSet.m[r + 1][c + 1] < l[i]) {
+          vertices.push([interp(levelSet.m[r + 1][c], levelSet.m[r + 1][c + 1], l[i], c * levelSet.h, (c + 1) * levelSet.h), (r + 1) * levelSet.h]);
+          //this.points.push(two.makeCircle(vertices[vertices.length - 1][0], vertices[vertices.length - 1][1], 5));
+        }
+        if(vertices.length == 2) {
+          this.lines.push(new Two.Line(vertices[0][0], vertices[0][1], vertices[1][0], vertices[1][1]));
+          this.lines[this.lines.length - 1].linewidth = strokes[i];
+          this.lines[this.lines.length - 1].stroke = colors[i];
+        }
+      }
+
+  //_.each(points, function(point) {
+  //  var col = Math.round(point.translation.x / levelSet.h);
+  //  var row = Math.round(point.translation.y / levelSet.h);
+  //  console.log(point.translation.x + " " + point.translation.y);
+  //});
+
+  this.group = two.makeGroup(this.points);
+  this.group.add(this.lines);
+}
+
 var GRID = {};
 
 GRID.Grid = function(two, size, ox, oy) {
@@ -286,7 +412,6 @@ POLYGON.PolygonObject = function(two, p) {
     });
 
   });
-
 
   this.anchors = [];
   this.anchors.push(two.makeCircle(0, 0, 10));
