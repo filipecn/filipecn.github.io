@@ -26,6 +26,6 @@ linkedin: filipe-cn-a869084a
 # paginate:         5
 # Dependencies
 # markdown:         redcarpet
-highlighter:      pygments
-plugins: [jekyll-gist  jekyll-remote-theme]
+highlighter:      rouge
+plugins: [jekyll-gist]
 baseurl:          /
