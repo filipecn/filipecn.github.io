@@ -27,5 +27,5 @@ linkedin: filipe-cn-a869084a
 # Dependencies
 # markdown:         redcarpet
 highlighter:      pygments
-gems: [jekyll-gist]
+plugins: [jekyll-gist  jekyll-remote-theme]
 baseurl:          /
