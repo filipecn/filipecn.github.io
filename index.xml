@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Personal portfolio</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Personal portfolio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 21 Oct 2016 15:43:48 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Convex polyhedra collision test (GJK Algorithm)</title>
+      <link>http://localhost:1313/post/gjk/</link>
+      <pubDate>Fri, 21 Oct 2016 15:43:48 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/gjk/</guid>
+      <description>If we interpret a polyhedron as a set of points, two polyhedra represented by sets \(A\) and \(B\), for example, collide if \(A \cap B \neq \emptyset\). The intersection set \(A \cap B\) represents all pairs of points between \(A\) and \(B\) which have distance \(0\) between them.
+A very nice operation between sets of points is the Minkowski Sum:
+Let \(A\) and \(B\) be two point sets. The Minkowski sum \(A \oplus B\) is defined as the set</description>
+    </item>
+    
+    <item>
+      <title>Z-Order Curve</title>
+      <link>http://localhost:1313/post/mcode/</link>
+      <pubDate>Sat, 21 May 2016 15:43:48 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/mcode/</guid>
+      <description>It is possible to arrange multi-dimensional data into an one-dimensional data structure in several ways by defining an ordering pattern, such as Hilbert curve and Z-Order Curve. This type of arrangement provides memory-efficient *-tree representations and helps to maximize cache hit queries on certain types of operations - neighborhood search on grids for example.
+The Z-Order Curve, also called Morton Order, creates a &amp;ldquo;Z&amp;rdquo; pattern on data traversal. The red lines on the Figure below show this pattern on the 2D example for different levels of a quad-tree:</description>
+    </item>
+    
+    <item>
+      <title>Interpolations on Semi-Lagrangian Advection Schemes</title>
+      <link>http://localhost:1313/post/interp/</link>
+      <pubDate>Sun, 16 Aug 2015 15:43:48 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/interp/</guid>
+      <description>When advecting some quantity field \(q\) (a velocity component, smoke density or temperature value for example) over the velocity field \(\vec{u}\) using a Semi-Lagrangian scheme, we need to trace back in time to get the new grid values.
+Imagine a particle carrying a specific quantity value being passively advected by the fluid flow. In a given instant of time \(t_n\), the particle ending at position \(\vec{x}_e\) started its trajectory at point \(\vec{x}_s\).</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/about/</guid>
+      <description> Hi! I&amp;rsquo;m Filipe, a Computer Science enthusiast with an old passion for Computer Graphics.
+ Currently pursuing a PhD. 
+ This is my resume. 
+ This website is an attempt to share my results and ideas with the community. 
+ Any suggestions, comments and opinions are welcome. 
+ Thanks for reading! 
+  </description>
+    </item>
+    
+    <item>
+      <title>Aergia</title>
+      <link>http://localhost:1313/aergia/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/aergia/</guid>
+      <description>Intended to be a minimalist framework for the development of applications based on OpenGL, Aergia should be useful to users with any level of experience in graphics programming.
+</description>
+    </item>
+    
+    <item>
+      <title>Helios</title>
+      <link>http://localhost:1313/helios/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/helios/</guid>
+      <description>Physically based renderer strongly based on pbrt book.</description>
+    </item>
+    
+    <item>
+      <title>Hercules</title>
+      <link>http://localhost:1313/hercules/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/hercules/</guid>
+      <description>Physics engine and set of functions for collision detection.</description>
+    </item>
+    
+    <item>
+      <title>Odysseus</title>
+      <link>http://localhost:1313/odysseus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/odysseus/</guid>
+      <description>Game engine for C++.</description>
+    </item>
+    
+    <item>
+      <title>Ponos</title>
+      <link>http://localhost:1313/ponos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/ponos/</guid>
+      <description>Utility library. Data structures, geometry and other useful tools.</description>
+    </item>
+    
+    <item>
+      <title>Poseidon</title>
+      <link>http://localhost:1313/poseidon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/poseidon/</guid>
+      <description>Set of algorithms and data structures for implementing fluid simulations in C++.</description>
+    </item>
+    
+    <item>
+      <title>Research</title>
+      <link>http://localhost:1313/research/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/research/</guid>
+      <description>Disclaimer: This site contains PDF files of articles that are covered by copyright. You may browse the articles at your convenience in the same spirit as you may read a journal or conference proceedings in a public library. Retrieving, copying, distributing these files, entirely or in parts, may violate copyright protection laws.   2014
+Approximating implicit curves on plane and surface triangulations with affine arithmetic     F.</description>
+    </item>
+    
+  </channel>
+</rss>

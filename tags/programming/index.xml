@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on Personal portfolio</title>
+    <link>http://localhost:1313/tags/programming/</link>
+    <description>Recent content in Programming on Personal portfolio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 21 Oct 2016 15:43:48 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Convex polyhedra collision test (GJK Algorithm)</title>
+      <link>http://localhost:1313/post/gjk/</link>
+      <pubDate>Fri, 21 Oct 2016 15:43:48 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/gjk/</guid>
+      <description>If we interpret a polyhedron as a set of points, two polyhedra represented by sets \(A\) and \(B\), for example, collide if \(A \cap B \neq \emptyset\). The intersection set \(A \cap B\) represents all pairs of points between \(A\) and \(B\) which have distance \(0\) between them.
+A very nice operation between sets of points is the Minkowski Sum:
+Let \(A\) and \(B\) be two point sets. The Minkowski sum \(A \oplus B\) is defined as the set</description>
+    </item>
+    
+    <item>
+      <title>Z-Order Curve</title>
+      <link>http://localhost:1313/post/mcode/</link>
+      <pubDate>Sat, 21 May 2016 15:43:48 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/mcode/</guid>
+      <description>It is possible to arrange multi-dimensional data into an one-dimensional data structure in several ways by defining an ordering pattern, such as Hilbert curve and Z-Order Curve. This type of arrangement provides memory-efficient *-tree representations and helps to maximize cache hit queries on certain types of operations - neighborhood search on grids for example.
+The Z-Order Curve, also called Morton Order, creates a &amp;ldquo;Z&amp;rdquo; pattern on data traversal. The red lines on the Figure below show this pattern on the 2D example for different levels of a quad-tree:</description>
+    </item>
+    
+    <item>
+      <title>Interpolations on Semi-Lagrangian Advection Schemes</title>
+      <link>http://localhost:1313/post/interp/</link>
+      <pubDate>Sun, 16 Aug 2015 15:43:48 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/interp/</guid>
+      <description>When advecting some quantity field \(q\) (a velocity component, smoke density or temperature value for example) over the velocity field \(\vec{u}\) using a Semi-Lagrangian scheme, we need to trace back in time to get the new grid values.
+Imagine a particle carrying a specific quantity value being passively advected by the fluid flow. In a given instant of time \(t_n\), the particle ending at position \(\vec{x}_e\) started its trajectory at point \(\vec{x}_s\).</description>
+    </item>
+    
+  </channel>
+</rss>
