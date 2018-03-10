@@ -59,56 +59,56 @@ Imagine a particle carrying a specific quantity value being passively advected b
     
     <item>
       <title>Aergia</title>
-      <link>http://localhost:1313/aergia/</link>
+      <link>http://localhost:1313/aergia_lib/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/aergia/</guid>
+      <guid>http://localhost:1313/aergia_lib/</guid>
       <description>Intended to be a minimalist framework for the development of applications based on OpenGL, Aergia should be useful to users with any level of experience in graphics programming.
 </description>
     </item>
     
     <item>
       <title>Helios</title>
-      <link>http://localhost:1313/helios/</link>
+      <link>http://localhost:1313/helios_lib/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/helios/</guid>
+      <guid>http://localhost:1313/helios_lib/</guid>
       <description>Physically based renderer strongly based on pbrt book.</description>
     </item>
     
     <item>
       <title>Hercules</title>
-      <link>http://localhost:1313/hercules/</link>
+      <link>http://localhost:1313/hercules_lib/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/hercules/</guid>
+      <guid>http://localhost:1313/hercules_lib/</guid>
       <description>Physics engine and set of functions for collision detection.</description>
     </item>
     
     <item>
       <title>Odysseus</title>
-      <link>http://localhost:1313/odysseus/</link>
+      <link>http://localhost:1313/odysseus_lib/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/odysseus/</guid>
+      <guid>http://localhost:1313/odysseus_lib/</guid>
       <description>Game engine for C++.</description>
     </item>
     
     <item>
       <title>Ponos</title>
-      <link>http://localhost:1313/ponos/</link>
+      <link>http://localhost:1313/ponos_lib/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ponos/</guid>
+      <guid>http://localhost:1313/ponos_lib/</guid>
       <description>Utility library. Data structures, geometry and other useful tools.</description>
     </item>
     
     <item>
       <title>Poseidon</title>
-      <link>http://localhost:1313/poseidon/</link>
+      <link>http://localhost:1313/poseidon_lib/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/poseidon/</guid>
+      <guid>http://localhost:1313/poseidon_lib/</guid>
       <description>Set of algorithms and data structures for implementing fluid simulations in C++.</description>
     </item>
     

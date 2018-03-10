@@ -30,7 +30,7 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/aergia/</loc>
+    <loc>http://localhost:1313/aergia_lib/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -63,7 +63,7 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/helios/</loc>
+    <loc>http://localhost:1313/helios_lib/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -76,7 +76,7 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/hercules/</loc>
+    <loc>http://localhost:1313/hercules_lib/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -89,7 +89,7 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/odysseus/</loc>
+    <loc>http://localhost:1313/odysseus_lib/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -109,13 +109,13 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/ponos/</loc>
+    <loc>http://localhost:1313/ponos_lib/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/poseidon/</loc>
+    <loc>http://localhost:1313/poseidon_lib/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
