@@ -7,9 +7,9 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Your Name / Site Title"
+title                    : "Personal Webite"
 title_separator          : "-"
-name                     : &name "Your Name"
+name                     : &name "FilipeCN"
 description              : &description "personal description"
 url                      : https://filipecn.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
@@ -75,19 +75,19 @@ social:
 analytics:
   provider               :  "google-universal" # false (default), "google", "google-universal", "custom"
   google:
-    tracking_id          :
+    tracking_id          : "UA-85882787-1"
 
 
 # Site Author
 author:
   name             : "Filipe Nascimento"
-  avatar           : "profile.png"
-  bio              : "Hi! I'm a PhD canditate"
+  avatar           : "profile.jpg"
+  bio              : "CS PhD canditate. Passionate about Computer Graphics."
   location         : "Brazil"
   employer         :
   pubmed           : #"https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
   googlescholar    : #"http://yourfullgooglescholarurl.com"
-  email            :
+  email            : "filipedecn@gmail.com"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :

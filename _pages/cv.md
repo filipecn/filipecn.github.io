@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "CV"
+title: "Resume"
 permalink: /cv/
 author_profile: true
 redirect_from:
@@ -8,52 +8,58 @@ redirect_from:
 ---
 
 {% include base_path %}
+[pdf version](../files/resume.pdf)
+
+Skills
+======
+  * C/C++ (prefered), Python, R, Rust
+  * OpenGL, CUDA
+  * Recent interests: Vulkan, OptiX, Rust and Haskell
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+  * **PhD's degree in Computer Science** _(2017 - Present)_\\
+	  _Institute of Mathematics and Computer Science (ICMC)_ \\
+	  _University of São Paulo (USP), São Carlos, São Paulo, Brazil_
+  * **Master's degree in Computer Science** _(2013 - 2016)_\\
+	  _Institute of Mathematics and Computer Science (ICMC)_ \\
+	  _University of São Paulo (USP), São Carlos, São Paulo, Brazil_
+  * **Bachelor of Computer Science** _(2008 - 2012)_\\
+	  _Institute of Mathematics and Computer Science (ICMC)_\\
+	  _University of São Paulo (USP), São Carlos, São Paulo, Brazil_
 
-Work experience
+Professional Experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+  * **Software Engineering Intern at Google Inc. (YouTube)** _(Jan 2016 - Mar 2016)_ \\
+  Worked on 360$^o$ video support on Sony's PlayStation 4 VR.
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-  
-Skills
+Research Experience
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* **Physically Based Animation of Debris Flows** _(2017 - Present)_ \\
+    Graduate Research supported by FAPESP \\
+	Supervisor: Afonso Paiva
+* **Multimaterial Fluid Simulation for Computer Graphics** _(Sep 2014 - Feb 2015)_ \\
+    _Visiting Scholar at University of Waterloo (UW), Waterloo, Ontario, Canada_\\
+    Supervisor: Christopher Batty
+* **Approximating implicit curves on plane and surface triangulations with affine arithmetic (AA)** _(2013 - 2014)_ \\
+	Published: _Computers & Graphics Journal (CAG), Volume 40, Pages 36–48._
+* **Approximating implicit curves on triangulations with AA** _2012_ \\
+	Published: _Proceedings XXV SIBGRAPI Conference on Graphics, Patterns and Images. IEEE Press: IEEE Press, 2012. p. 94-101._ 
+* **Reliable polygonal approximation of implicit curves** _(2011 - 2012)_\\
+    Undergraduate Research supported by FAPESP\\
+	Supervisor: Afonso Paiva
 
-Publications
+Extracurricular Activities
 ======
-  <ul>{% for post in site.publications %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks %}
-    {% include archive-single-talk-cv.html %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+**Programming Contests**
+* Participating as coach:
+  * ACM-ICPC 2014 World Finals _(2013 - 2014)_ 
+  * ACM-ICPC Latin America Regional Contest (1st Place) _2013_
+* As competitor participated in:
+  * ACM-ICPC Brazilian Regional Contest _(2009 - 2012)_
+  * ACM-ICPC Latin America Regional Contest _2009_     
+
+**Teaching Assistant**
+* Fundamentals of Programming Course _(Jan - Jul 2019)_
+* Fundamentals of Programming Course _(Jan - Jul 2018)_
+* Advanced Algorithms Laboratory Course _(Mar - Jul 2013)_
