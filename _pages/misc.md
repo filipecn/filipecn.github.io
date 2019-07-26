@@ -1,10 +1,10 @@
 ---
-permalink: /miscellaneous/
+permalink: /misc/
 title: "Miscellaneous"
 author_profile: true
 redirect_from: 
   - /md/
-  - /miscellaneous.html
+  - /misc.html
 ---
 
 Programming can be quite frustrating sometimes (if not most of the time), as we spend a great deal of time fixing errors and solving bugs. In graphics programming, bugs usually manifest visually and end up producing fun images of our struggle.
