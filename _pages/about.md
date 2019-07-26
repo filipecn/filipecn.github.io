@@ -7,8 +7,17 @@ redirect_from:
   - /about/
   - /about.html
 ---
+This website is an attempt to share my knowledge and ideas with the community. Hopefully, the content might help or inspire someone. 
+Of course, any suggestions, comments, and opinions are very welcome. 
+**Thanks for reading!**
+
+I'm currently pursuing a Ph.D. and since undergrad, my focus has been geometric processing, animation, simulation, and rendering. 
+After all these years, I finally thought it would be a good idea to build a 
+[portfolio](https://filipecn.github.io/portfolio) of my projects, so here I am.
+
 <p>
-I've been trying to pack everything I do into a set of libraries which eventually serve me as frameworks to new projects. Some day, they will get documented so people might find some use. Here is the list of what I have so far :
+I've also been trying to pack everything I do into a set of libraries which eventually serve me as frameworks to new projects. 
+Some day, they will get documented so people might find some use. Here is the list of what I have so far :
 </p>
 <div class="page__related">
   <div class="grid__wrapper">
