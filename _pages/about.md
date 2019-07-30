@@ -15,10 +15,8 @@ I'm currently pursuing a Ph.D. and since undergrad, my focus has been geometric 
 After all these years, I finally thought it would be a good idea to build a 
 [portfolio](https://filipecn.github.io/portfolio) of my projects, so here I am.
 
-<p>
-I've also been trying to pack everything I do into a set of libraries which eventually serve me as frameworks to new projects. 
+I've also been trying to pack everything I do into a [set of libraries](https://github.com/filipecn/ponos) which eventually serve me as frameworks to new projects. 
 Some day, they will get documented so people might find some use. Here is the list of what I have so far :
-</p>
 <div class="page__related">
   <div class="grid__wrapper">
     <div class="grid__item">
@@ -56,7 +54,7 @@ Some day, they will get documented so people might find some use. Here is the li
         </div>
         <h2 class="archive__item-title" itemprop="headline">Poseidon</h2>
         <p class="archive__item-excerpt" itemprop="description">
-  <strong>Physically Based Simulation Engine</strong>
+  <strong>Simulation Engine</strong>
         </p>
         <p class="archive__item-excerpt" itemprop="description">
   Set of algorithms and data structures for implementing fluid simulations in C&#43;&#43;.
