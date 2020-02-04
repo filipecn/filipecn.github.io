@@ -1,7 +1,13 @@
 ---
 title: "Ray Tracer in Rust"
-excerpt: "Short description of portfolio item number 1<br/><img src='/images/500x300.png'>"
+excerpt: "Short description of portfolio item number 1<br/><img src='/images//portfolio/render.png'>"
 collection: portfolio
 ---
 
-This is an item in your portfolio. It can be have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML. 
+I've been very interested in rust language lately and needed a cool project to dive in. Since I also wanted to take a look on Peter Shirley's ray tracing [books](https://drive.google.com/drive/folders/14yayBb9XiL16lmuhbYhhvea8mKUUK77W), the implementation of a ray tracer made very much sense.
+
+At this point, I implemented only the first book, and this is the result:
+
+<center><img align="middle" src="/images/portfolio/render.png"   /></center>
+
+[project code](https://github.com/filipecn/rust-experiments)
