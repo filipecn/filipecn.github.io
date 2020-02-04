@@ -1,6 +1,6 @@
 ---
 title: "Ray Tracer in Rust"
-excerpt: "Short description of portfolio item number 1<br/><img src='/images//portfolio/render.png'>"
+excerpt: "<hr><img src='/images//portfolio/render.png'>"
 collection: portfolio
 ---
 
@@ -10,4 +10,4 @@ At this point, I implemented only the first book, and this is the result:
 
 <center><img align="middle" src="/images/portfolio/render.png"   /></center>
 
-[project code](https://github.com/filipecn/rust-experiments)
+[code](https://github.com/filipecn/rust-experiments)
