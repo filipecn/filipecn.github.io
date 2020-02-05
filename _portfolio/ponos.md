@@ -1,7 +1,32 @@
 ---
 title: "Ponos Libraries"
-excerpt: "Short description of portfolio item number 1<br/><img src='/images/500x300.png'>"
+excerpt: "<hr><img src='/images/500x300.png'>"
 collection: portfolio
 ---
 
-This is an item in your portfolio. It can be have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML. 
+I've been compiling all my code (C++) into a set of libraries that serve as a basis for new projects. Among these, you can find auxiliary classes for geometry, data structures, algorithms, GPU computing, rendering, graphical applications, physical simulations, etc.
+
+This project is under continuous development (and probably eternal hehe). Someday, some minimal decent documentation will be available, so other people can make use of it.
+
+The code organization follows the separation: general utility (Ponos), graphics (Circe), fluid simulations (Posseidon), rigid body simulations (Heracles), game engine (Odysseus), GPU computing (Hermes) and rendering (Helios).
+
+<hr>
+
+Ponos comprises the basis for all other sub-libraries listed above. It provides tools ranging from math to data structures. Here is a list of some features:
+
+<ul>
+  <li>Geometry;</li>
+  <li>Memory;</li>
+</ul>
+
+<hr>
+
+{% highlight cpp %}
+#include <circe/circe.h>
+
+int main() {
+    circe::SceneApp<> app(800, 800, "Example");
+    circe::CartesianGrid grid(5);
+    app.scene.add(&grid);
+    return app.run();
+}{% endhighlight %}
