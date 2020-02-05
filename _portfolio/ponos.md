@@ -24,7 +24,7 @@ Ponos comprises the basis for all other sub-libraries listed above. It provides 
 <div class="grid__item">
       <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
         <div class="archive__item-teaser">
-          <img src="../images/ponos.jpg" style="width:100%"> 
+          <img src="/images/ponos.jpg" style="width:100%"> 
         </div>
         <h2 class="archive__item-title" itemprop="headline">Ponos</h2>
         <p class="archive__item-excerpt" itemprop="description">
