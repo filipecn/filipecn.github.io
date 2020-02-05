@@ -8,7 +8,7 @@ I've been compiling all my code (C++) into a set of libraries that serve as a ba
 
 This project is under continuous development (and probably eternal hehe). Someday, some minimal decent documentation will be available, so other people can make use of it.
 
-The code organization follows the separation: general utility (Ponos), graphics (Circe), fluid simulations (Posseidon), rigid body simulations (Heracles), game engine (Odysseus), GPU computing (Hermes) and rendering (Helios).
+The code organization has the following categories: general utility (Ponos), graphics (Circe), fluid simulations (Posseidon), rigid body simulations (Heracles), game engine (Odysseus), GPU computing (Hermes) and rendering (Helios).
 
 <hr>
 
@@ -20,6 +20,11 @@ Ponos comprises the basis for all other sub-libraries listed above. It provides 
 </ul>
 
 <hr>
+
+asdasdasd
+asdasdasdasdasdasdasdasd
+<img align="left" src="../images/ponos.jpg" style="width:50%">        asdasdasdasdasdasdasdasdasd
+asdasdasdasd
 
 {% highlight cpp %}
 #include <circe/circe.h>
