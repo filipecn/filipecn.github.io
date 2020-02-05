@@ -23,7 +23,7 @@ Ponos comprises the basis for all other sub-libraries listed above. It provides 
 
 asdasdasd
 asdasdasdasdasdasdasdasd
-<img align="left" src="../images/ponos.jpg" style="width:50%">        asdasdasdasdasdasdasdasdasd
+<img align="left" src="/images/ponos.jpg" style="width:50%">        asdasdasdasdasdasdasdasdasd
 asdasdasdasd
 
 {% highlight cpp %}
