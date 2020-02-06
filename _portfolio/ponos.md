@@ -12,6 +12,9 @@ The code organization has the following categories: general utility (Ponos), gra
 
 <hr>
 
+<img align="left" src="/images/ponos.jpg" style="width:30%"> 
+
+
 Ponos comprises the basis for all other sub-libraries listed above. It provides tools ranging from math to data structures. Here is a list of some features:
 
 <ul>
@@ -19,11 +22,6 @@ Ponos comprises the basis for all other sub-libraries listed above. It provides 
   <li>Memory;</li>
 </ul>
 
-<hr>
-
-<div class="archive__item-teaser">
-          <img align="left" src="/images/ponos.jpg" style="width:30%"> 
-        </div>
 
 {% highlight cpp %}
 #include <circe/circe.h>
