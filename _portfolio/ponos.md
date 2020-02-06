@@ -1,6 +1,6 @@
 ---
 title: "Ponos Libraries"
-excerpt: "<hr><img src='/images/500x300.png'>"
+excerpt: "<hr>Base code for all my projects."
 collection: portfolio
 ---
 
@@ -18,10 +18,10 @@ The code organization has the following categories: general utility (Ponos), gra
 **Ponos** comprises the basis for all the other sub-libraries listed above. It provides tools ranging from math to data structures. Here is a list of some features:
 
 <ul>
-  <li>Geometry: vector, point, transforms, quaternions, etc.;</li>
-  <li>Memory: memory blocks, multidimensional arrays, memory arena, etc.;</li>
-  <li>Data Structures: BVH, half-edge, octree, meshes, object pool, etc.;</li>
-  <li>Others: linear system solvers, sparse matrices, interpolations, grids, etc.;</li>
+  <li>Geometry: vector, point, transforms, quaternions, etc.</li>
+  <li>Memory: memory blocks, multidimensional arrays, memory arena, etc.</li>
+  <li>Data Structures: BVH, half-edge, octree, meshes, object pool, etc.</li>
+  <li>Others: linear system solvers, sparse matrices, interpolations, grids, etc.</li>
 </ul>
 
 <hr>
@@ -53,6 +53,7 @@ int main() {
 <img align="left" src="/images/poseidon.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
 **Poseidon** provides tools for fluid simulation. The idea is to offer implementations of algorithms such as FLIP, MPM, etc. However, the development is in its early stages. I've been experimenting with libraries such as CUDA and OpenVDB here.
+<br clear="left">
 
 <hr>
 
@@ -60,12 +61,14 @@ int main() {
 
 **Helios** 
 
+<br clear="right">
 
 <hr>
 
 <img align="left" src="/images/odysseus.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
 **Odysseus**
+<br clear="left">
 
 <hr>
 
