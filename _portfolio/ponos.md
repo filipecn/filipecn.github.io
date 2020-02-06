@@ -12,7 +12,7 @@ The code organization has the following categories: general utility (Ponos), gra
 
 <hr>
 
-<img align="right" src="/images/ponos.jpg" style="width:30%; padding : 10px;"> 
+<img align="right" src="/images/ponos.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
 
 Ponos comprises the basis for all other sub-libraries listed above. It provides tools ranging from math to data structures. Here is a list of some features:
