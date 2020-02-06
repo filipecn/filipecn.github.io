@@ -48,9 +48,9 @@ int main() {
 
 <hr>
 
-<img align="left" src="/images/posseidon.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+<img align="left" src="/images/poseidon.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
-**Posseidon**
+**Poseidon**
 
 <hr>
 
@@ -67,7 +67,7 @@ int main() {
 
 <hr>
 
-<img align="right" src="/images/heracles.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+<img align="right" src="/images/hercules.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
 **Heracles**
 
