@@ -22,13 +22,8 @@ Ponos comprises the basis for all other sub-libraries listed above. It provides 
 <hr>
 
 <div class="archive__item-teaser">
-          <img src="/images/ponos.jpg" style="width:100%"> 
+          <img align="left" src="/images/ponos.jpg" style="width:30%"> 
         </div>
-
-asdasdasd
-asdasdasdasdasdasdasdasd
-<img align="left" src="/images/ponos.jpg" style="width:50%;border:5px solid white;">        asdasdasdasdasdasdasdasdasd
-asdasdasdasd
 
 {% highlight cpp %}
 #include <circe/circe.h>
