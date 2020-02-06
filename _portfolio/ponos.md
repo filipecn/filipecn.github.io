@@ -15,7 +15,7 @@ The code organization has the following categories: general utility (Ponos), gra
 <img align="right" src="/images/ponos.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
 
-Ponos comprises the basis for all other sub-libraries listed above. It provides tools ranging from math to data structures. Here is a list of some features:
+**Ponos** comprises the basis for all the other sub-libraries listed above. It provides tools ranging from math to data structures. Here is a list of some features:
 
 <ul>
   <li>Geometry;</li>
@@ -24,6 +24,11 @@ Ponos comprises the basis for all other sub-libraries listed above. It provides 
   <li>Memory;</li>
 </ul>
 
+<hr>
+
+<img align="left" src="/images/circe.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+
+**Circe**
 
 {% highlight cpp %}
 #include <circe/circe.h>
@@ -34,3 +39,38 @@ int main() {
     app.scene.add(&grid);
     return app.run();
 }{% endhighlight %}
+
+<hr>
+
+<img align="right" src="/images/hermes.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+
+**Hermes**
+
+<hr>
+
+<img align="left" src="/images/posseidon.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+
+**Posseidon**
+
+<hr>
+
+<img align="right" src="/images/helios.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+
+**Helios**
+
+
+<hr>
+
+<img align="left" src="/images/odysseus.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+
+**Odysseus**
+
+<hr>
+
+<img align="right" src="/images/heracles.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
+
+**Heracles**
+
+
+
+
