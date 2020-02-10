@@ -12,7 +12,7 @@ redirect_from:
 
 Skills
 ======
-  * C/C++ (prefered), Python, R, Rust
+  * C/C++ (prefered), Python, R
   * OpenGL, CUDA
   * Recent interests: Vulkan, OptiX, Rust and Haskell
 

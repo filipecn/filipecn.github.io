@@ -1,6 +1,9 @@
 ---
 title: "Ponos Libraries"
-excerpt: "<hr>Base code for all my projects."
+excerpt: "<hr><img align='right' src='/images/portfolio/circe.gif' style='width:20%; padding : 10px; border-radius: 25px;'>
+Base code for all my projects. 
+<br>It is a set of libraries that provide auxiliary classes for geometry, data structures, algorithms, GPU computing, rendering, graphical applications, physical simulations, etc.<br clear='right'>"
+
 collection: portfolio
 ---
 
@@ -30,13 +33,15 @@ The code organization has the following categories: general utility (Ponos), gra
 
 **Circe** should be useful for building graphical applications. Intended to be a minimal framework for OpenGL applications, Circe offers a series of helper classes to manipulate IO, buffers, shaders, textures, instancing, compute shaders, user interaction, scenes, etc.
 
-The idea is to facilitate full access to OpenGL features with a minimal amount of lines of code. Here is an example of a simple 3D application presenting a cartesian grid with camera control:
+The idea is to facilitate full access to OpenGL features with a minimal amount of lines of code. Here is an example of a simple 3D application presenting a cartesian grid with camera control (result on the right):
 
+<br clear="left">
+<img align="right" src="/images/portfolio/circe.gif" style="width:30%; padding : 10px; border-radius: 25px;"> 
 {% highlight cpp %}
 #include <circe/circe.h>
 
 int main() {
-    circe::SceneApp<> app(800, 800, "Example");
+    circe::SceneApp<> app(800, 800);
     circe::CartesianGrid grid(5);
     app.scene.add(&grid);
     return app.run();
@@ -52,14 +57,14 @@ int main() {
 
 <img align="left" src="/images/poseidon.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
-**Poseidon** provides tools for fluid simulation. The idea is to offer implementations of algorithms such as FLIP, MPM, etc. However, the development is in its early stages. I've been experimenting with libraries such as CUDA and OpenVDB here.
+**Poseidon** provides tools for fluid simulation. The idea is to offer implementations of algorithms such as FLIP, MPM, etc. However, the development is in its early stages. I've been experimenting with libraries such as CUDA and [OpenVDB](https://www.openvdb.org) here.
 <br clear="left">
 
 <hr>
 
 <img align="right" src="/images/helios.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
-**Helios** 
+**Helios** concentrates my studies in offline rendering. My main reference is the [PBRT](https://www.pbrt.org) book, and helios is my own implementation of the book. however, there is a long way ahead and much work to do.
 
 <br clear="right">
 
@@ -67,14 +72,15 @@ int main() {
 
 <img align="left" src="/images/odysseus.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
-**Odysseus**
+**Odysseus** is a game engine (at least when finished) based on state machines. Although I have a C# version I made years ago, I would like to implement it in C++ with all the new things I learned over these years.
+
 <br clear="left">
 
 <hr>
 
 <img align="right" src="/images/hercules.jpg" style="width:30%; padding : 10px; border-radius: 25px;"> 
 
-**Heracles**
+**Heracles** is the physics engine used by Odysseus. (future project)
 
 
 
