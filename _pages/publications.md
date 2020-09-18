@@ -8,6 +8,35 @@ author_profile: true
   <span style="color: #ff0000;">Disclaimer</span>: _This site contains PDF files of articles that are covered by copyright. You may browse the articles at your convenience in the same spirit as you may read a journal or conference proceedings in a public library. Retrieving, copying, distributing these files, entirely or in parts, may violate copyright protection laws._
   {: .notice}
 
+<h2 style="text-align: center;">RBF Liquids: An Adaptive PIC Solver Using RBF-FD</h2>
+<center>
+  <a href="https://rnakanishi.github.io/files/rbf-sa2020.pdf" target="\_blank"><img src="../images/publications/siggraph-2020.png" alt="rbf_pic" width="80%" height="80%" /></a>
+</center>
+<center>
+<small>
+<span style="font-style: italic;" >
+<a href="https://rnakanishi.github.io/">Rafael Nakanishi</a>, 
+Filipe Nascimento, 
+<a href="https://www.campos.cc/">Rafael Campos</a>, 
+<a href="http://www.facom.ufms.br/~pagliosa/">Paulo Pagliosa</a>, 
+<a href="http://www.icmc.usp.br/%7Eapneto/">Afonso Paiva</a>, 
+</span></small>
+</center>
+<center>
+<small><span style="font-style: italic;" >ACM Siggraph Asia 2020 | ACM Transactions on Graphics</span></small>
+</center>
+<center>
+<small><span style="font-style: italic;" >
+<a href="https://rnakanishi.github.io/files/rbf-sa2020.pdf">pdf</a>
+<a href="https://www.youtube.com/watch?v=JVt8NoF81uI">video</a>
+<a href="https://rnakanishi.github.io/publications/rbf-liquids-adaptive-pic-solver-using-rbf/">webpage</a>
+</span></small>
+</center>
+<center>
+We introduce a novel liquid simulation approach that combines a spatially adaptive pressure projection solver with the Particle-in-Cell (PIC) method. The solver relies on a generalized version of the Finite Difference (FD) method to approximate the pressure field and its gradients in tree-based grid discretizations, possibly non-graded. In our approach, FD stencils are computed by using meshfree interpolations provided by a variant of Radial Basis Function (RBF), known as RBF-Finite-Difference (RBF-FD). This meshfree version of the FD produces differentiation weights on scattered nodes with high-order accuracy. Our method adapts a quadtree/octree dynamically in a narrow-band around the liquid interface, providing an adaptive particle sampling for the PIC advection step. Furthermore, RBF affords an accurate scheme for velocity transfer between the grid and particles, keeping the system’s stability and avoiding numerical dissipation. We also present a data structure that connects the spatial subdivision of a quadtree/octree with the topology of its corresponding dual-graph. Our data structure makes the setup of stencils straightforward, allowing its updating without the need to rebuild it from scratch at each time-step. We show the effectiveness and accuracy of our solver by simulating incompressible inviscid fluids and comparing results with regular PIC-based solvers available in the literature.
+</center>
+
+
 <h2 style="text-align: center;">Approximating implicit curves on plane and surface triangulations with affine arithmetic</h2>
 <center>
   <a href="http://www.icmc.usp.br/~apneto/pub/aatri_cag14.pdf" target="\_blank"><img src="https://filipecn.files.wordpress.com/2015/07/teapot.png" alt="teapot" width="290" height="183" /></a>
@@ -20,7 +49,7 @@ author_profile: true
 </center>
 <center>
 <small><span style="font-style: italic;" >
-<a href="http://www.icmc.usp.br/~apneto/pub/aatri_cag14.pdf">pdf</a>
+<a href="../files/aatri_cag14.pdf">pdf</a>
 </span></small>
 </center>
 <center>
@@ -42,7 +71,7 @@ Proceedings of SIBGRAPI 2012, IEEE Press, pp. 94-101, 2012
 </center>
 <center>
 <small><span style="font-style: italic;">
-<a href="http://sibgrapi.sid.inpe.br/attachment.cgi/sid.inpe.br/sibgrapi/2012/07.04.00.56/doc/sib.pdf">pdf</a>
+<a href="../files/sib.pdf">pdf</a>
 </span></small>
 </center>
 <center>

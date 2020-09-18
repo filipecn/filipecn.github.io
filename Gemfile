@@ -26,3 +26,18 @@ group :jekyll_plugins do
   gem 'hawkins'
   # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 end
+
+
+
+
+gem "activesupport", ">= 6.0.3.1"
+
+
+gem "kramdown", ">= 2.3.0"
+
+
+
+gem "nokogiri", ">= 1.10.8"
+
+
+

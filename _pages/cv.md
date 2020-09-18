@@ -35,9 +35,11 @@ Professional Experience
 
 Research Experience
 ======
-* **Physically Based Animation of Debris Flows** _(2017 - Present)_ \\
+* **Digital Animation of Powder Snow Avalanches** _(2017 - Present)_ \\
     Graduate Research supported by FAPESP \\
 	Supervisor: Afonso Paiva
+* **RBF Liquids: An Adaptive PIC Solver Using RBF-FD** _(2018 - 2020)_ \\
+	Published: _ACM Siggraph Asia 2020 | ACM Transactions on Graphics_
 * **Multimaterial Fluid Simulation for Computer Graphics** _(Sep 2014 - Feb 2015)_ \\
     _Visiting Scholar at University of Waterloo (UW), Waterloo, Ontario, Canada_\\
     Supervisor: Christopher Batty
