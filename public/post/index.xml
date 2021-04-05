@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on filipecn</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on filipecn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 01 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coordinate Systems and _their_ Projections</title>
+      <link>/post/projections/</link>
+      <pubDate>Thu, 01 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/projections/</guid>
+      <description>The fundamental tool we use to render our virtual world from different points of view is the coordinate system. We can define a coordinate system for each model, for each light, for the camera, and one to arrange objects in the scene. Each of these coordinate systems define a coordinate space where we can compute position, orientation and size of our objects. We can also jump between different coordinate spaces. Each different space will fit best for each kind of situation.</description>
+    </item>
+    
+    <item>
+      <title>Hello Circe</title>
+      <link>/post/2021-03-27-hello/</link>
+      <pubDate>Sat, 27 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2021-03-27-hello/</guid>
+      <description>The Shader Storage Buffer Object (SSBO) and the Uniform Buffer Object (UBOs) are buffer objects in OpenGL used to transfer data to shaders. Although both are very similar there are important differences between them.
+The UBO provides uniform data to the shader, in the form of uniform blocks, which is accessed through internal shader-accessible memory reads. The advantage of using the UBO instead of separate uniforms is that you can quickly switch between different sets of uniform data for different instances of the same program in you application.</description>
+    </item>
+    
+    <item>
+      <title>Object Pool</title>
+      <link>/post/2021-03-13/</link>
+      <pubDate>Sat, 13 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2021-03-13/</guid>
+      <description>Here is a simple and yet efficient object pool implementation.
+ An object pool is a container that allows us to access, iterate, allocate, and destroy objects of a given type.
+ A example of usage can be:
+ObjectPool&amp;lt;Bubble&amp;gt; bubbles; // allocate two objects 	auto first_bubble = bubbles.allocate(); auto second_bubble = bubbles.allocate(); // remove one 	bubbles.free(first_bubble); // iteration 	for(const auto&amp;amp; bubble : bubles) // use bubble The key feature of the object pool structure is how it handles object deletion (and consequently, allocation).</description>
+    </item>
+    
+    <item>
+      <title>Convex polyhedra collision test (GJK Algorithm)</title>
+      <link>/post/2019-07-26-gjk/</link>
+      <pubDate>Fri, 26 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-07-26-gjk/</guid>
+      <description>Let&amp;rsquo;s talk about a cool and efficient way make collision tests between (convex) polyhedra. The approach here though, is a little different from the usual geometric predicates, here we will use something called the Minkowski sum.
+If we interpret a polyhedron as a set of points, two polyhedra represented by sets \(A\) and \(B\), for example, collide if \(A \cap B \neq \emptyset\). The intersection set \(A \cap B\) represents all pairs of points between \(A\) and \(B\) which have distance \(0\) between them, because well&amp;hellip; each of these pairs is composed by the same point (shared by \(A\) and \(B\)).</description>
+    </item>
+    
+    <item>
+      <title>Beautiful Bugs</title>
+      <link>/post/2018-07-26-bug-art/</link>
+      <pubDate>Thu, 26 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018-07-26-bug-art/</guid>
+      <description>Programming can be quite frustrating sometimes (if not most of the time), as we spend a great deal of time fixing errors and solving bugs. In graphics programming, bugs usually manifest visually and end up producing fun images of our struggle.
+Here is a list of some of my numerous frustrating surprises that I certainly would not be able to reproduce consciously.
+Streamlines Streamlines provide a cool way to visualize velocity fields and follow a simple idea: inject particles in the flow and track their path using line segments as time advances.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title> :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="pbr shader vertex shader #version 440 core layout(location = 0) in vec3 position; layout(location = 1) in vec3 normal; layout(location = 3) uniform mat4 projection; layout(location = 4) uniform mat4 model; layout(location = 5) uniform mat4 view; out vec3 fPosition; out vec3 fNormal; void main() { fPosition = vec3(model * vec4(position, 1.0)); fNormal = mat3(transpose(inverse(model))) * normal; gl_Position = projection * view * vec4(fPosition, 1.0); }; fragment shader #version 440 core  in vec3 fPosition; in vec3 fNormal; out vec4 outColor; layout(std430, binding = 1) buffer layoutName { struct { vec3 position; vec3 color; } lights[]; }; layout (std140) uniform PBR { vec3 albedo; float metallic; float roughness; float ao; }; uniform vec3 camPos; const float PI = 3." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/code_base/pbr/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="">
+<meta property="og:description" content="pbr shader vertex shader #version 440 core layout(location = 0) in vec3 position; layout(location = 1) in vec3 normal; layout(location = 3) uniform mat4 projection; layout(location = 4) uniform mat4 model; layout(location = 5) uniform mat4 view; out vec3 fPosition; out vec3 fNormal; void main() { fPosition = vec3(model * vec4(position, 1.0)); fNormal = mat3(transpose(inverse(model))) * normal; gl_Position = projection * view * vec4(fPosition, 1.0); }; fragment shader #version 440 core  in vec3 fPosition; in vec3 fNormal; out vec4 outColor; layout(std430, binding = 1) buffer layoutName { struct { vec3 position; vec3 color; } lights[]; }; layout (std140) uniform PBR { vec3 albedo; float metallic; float roughness; float ao; }; uniform vec3 camPos; const float PI = 3." />
+<meta property="og:url" content="/code_base/pbr/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  <center>
+  CS PhD canditate
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/code_base/pbr/"></a></h1>
+  <div class="post-meta">
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="pbr-shader">pbr shader<a href="#pbr-shader" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="vertex-shader">vertex shader<a href="#vertex-shader" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#version 440 core
+</span><span style="color:#75715e"></span>layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) in vec3 position;
+layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) in vec3 normal;
+
+layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) uniform mat4 projection;
+layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>) uniform mat4 model;
+layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>) uniform mat4 view;
+
+out vec3 fPosition;
+out vec3 fNormal;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>() {
+    fPosition <span style="color:#f92672">=</span> vec3(model <span style="color:#f92672">*</span> vec4(position, <span style="color:#ae81ff">1.0</span>));
+    fNormal <span style="color:#f92672">=</span> mat3(transpose(inverse(model))) <span style="color:#f92672">*</span> normal;
+    gl_Position <span style="color:#f92672">=</span> projection <span style="color:#f92672">*</span> view <span style="color:#f92672">*</span> vec4(fPosition, <span style="color:#ae81ff">1.0</span>);
+};
+</code></pre></div><h2 id="fragment-shader">fragment shader<a href="#fragment-shader" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#version 440 core
+</span><span style="color:#75715e"></span>
+in vec3 fPosition;
+in vec3 fNormal;
+
+out vec4 outColor;
+
+layout(std430, binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) buffer layoutName {
+    <span style="color:#66d9ef">struct</span> {
+        vec3 position;
+        vec3 color;
+    } lights[];
+};
+
+layout (std140) uniform PBR {
+    vec3 albedo;
+    <span style="color:#66d9ef">float</span> metallic;
+    <span style="color:#66d9ef">float</span> roughness;
+    <span style="color:#66d9ef">float</span> ao;
+};
+
+uniform vec3 camPos;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> PI <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.14159265359</span>;
+<span style="color:#75715e">// ----------------------------------------------------------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">DistributionGGX</span>(vec3 N, vec3 H, <span style="color:#66d9ef">float</span> roughness)
+{
+    <span style="color:#66d9ef">float</span> a <span style="color:#f92672">=</span> roughness<span style="color:#f92672">*</span>roughness;
+    <span style="color:#66d9ef">float</span> a2 <span style="color:#f92672">=</span> a<span style="color:#f92672">*</span>a;
+    <span style="color:#66d9ef">float</span> NdotH <span style="color:#f92672">=</span> max(dot(N, H), <span style="color:#ae81ff">0.0</span>);
+    <span style="color:#66d9ef">float</span> NdotH2 <span style="color:#f92672">=</span> NdotH<span style="color:#f92672">*</span>NdotH;
+
+    <span style="color:#66d9ef">float</span> nom   <span style="color:#f92672">=</span> a2;
+    <span style="color:#66d9ef">float</span> denom <span style="color:#f92672">=</span> (NdotH2 <span style="color:#f92672">*</span> (a2 <span style="color:#f92672">-</span> <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.0</span>);
+    denom <span style="color:#f92672">=</span> PI <span style="color:#f92672">*</span> denom <span style="color:#f92672">*</span> denom;
+
+    <span style="color:#66d9ef">return</span> nom <span style="color:#f92672">/</span> max(denom, <span style="color:#ae81ff">0.001</span>);<span style="color:#75715e">// prevent divide by zero for roughness=0.0 and NdotH=1.0
+</span><span style="color:#75715e"></span>}
+<span style="color:#75715e">// ----------------------------------------------------------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">GeometrySchlickGGX</span>(<span style="color:#66d9ef">float</span> NdotV, <span style="color:#66d9ef">float</span> roughness)
+{
+    <span style="color:#66d9ef">float</span> r <span style="color:#f92672">=</span> (roughness <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.0</span>);
+    <span style="color:#66d9ef">float</span> k <span style="color:#f92672">=</span> (r<span style="color:#f92672">*</span>r) <span style="color:#f92672">/</span> <span style="color:#ae81ff">8.0</span>;
+
+    <span style="color:#66d9ef">float</span> nom   <span style="color:#f92672">=</span> NdotV;
+    <span style="color:#66d9ef">float</span> denom <span style="color:#f92672">=</span> NdotV <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> k) <span style="color:#f92672">+</span> k;
+
+    <span style="color:#66d9ef">return</span> nom <span style="color:#f92672">/</span> denom;
+}
+<span style="color:#75715e">// ----------------------------------------------------------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">GeometrySmith</span>(vec3 N, vec3 V, vec3 L, <span style="color:#66d9ef">float</span> roughness)
+{
+    <span style="color:#66d9ef">float</span> NdotV <span style="color:#f92672">=</span> max(dot(N, V), <span style="color:#ae81ff">0.0</span>);
+    <span style="color:#66d9ef">float</span> NdotL <span style="color:#f92672">=</span> max(dot(N, L), <span style="color:#ae81ff">0.0</span>);
+    <span style="color:#66d9ef">float</span> ggx2 <span style="color:#f92672">=</span> GeometrySchlickGGX(NdotV, roughness);
+    <span style="color:#66d9ef">float</span> ggx1 <span style="color:#f92672">=</span> GeometrySchlickGGX(NdotL, roughness);
+
+    <span style="color:#66d9ef">return</span> ggx1 <span style="color:#f92672">*</span> ggx2;
+}
+<span style="color:#75715e">// ----------------------------------------------------------------------------
+</span><span style="color:#75715e"></span>vec3 <span style="color:#a6e22e">fresnelSchlick</span>(<span style="color:#66d9ef">float</span> cosTheta, vec3 F0)
+{
+    <span style="color:#66d9ef">return</span> F0 <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> F0) <span style="color:#f92672">*</span> pow(max(<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> cosTheta, <span style="color:#ae81ff">0.0</span>), <span style="color:#ae81ff">5.0</span>);
+}
+<span style="color:#75715e">// ----------------------------------------------------------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>()
+{
+    vec3 N <span style="color:#f92672">=</span> normalize(fNormal);
+    vec3 V <span style="color:#f92672">=</span> normalize(camPos <span style="color:#f92672">-</span> fPosition);
+
+    <span style="color:#75715e">// calculate reflectance at normal incidence; if dia-electric (like plastic) use F0
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// of 0.04 and if it&#39;s a metal, use the albedo color as F0 (metallic workflow)
+</span><span style="color:#75715e"></span>    vec3 F0 <span style="color:#f92672">=</span> vec3(<span style="color:#ae81ff">0.04</span>);
+    F0 <span style="color:#f92672">=</span> mix(F0, albedo, metallic);
+
+    <span style="color:#75715e">// reflectance equation
+</span><span style="color:#75715e"></span>    vec3 Lo <span style="color:#f92672">=</span> vec3(<span style="color:#ae81ff">0.0</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; <span style="color:#f92672">++</span>i)
+    {
+        <span style="color:#75715e">// calculate per-light radiance
+</span><span style="color:#75715e"></span>        vec3 L <span style="color:#f92672">=</span> normalize(lights[i].position.xyz <span style="color:#f92672">-</span> fPosition);
+        vec3 H <span style="color:#f92672">=</span> normalize(V <span style="color:#f92672">+</span> L);
+        <span style="color:#66d9ef">float</span> distance <span style="color:#f92672">=</span> length(lights[i].position.xyz <span style="color:#f92672">-</span> fPosition);
+        <span style="color:#66d9ef">float</span> attenuation <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> (distance <span style="color:#f92672">*</span> distance);
+        vec3 radiance <span style="color:#f92672">=</span> <span style="color:#75715e">/*lights[i].color*/</span> vec3(<span style="color:#ae81ff">300</span>,<span style="color:#ae81ff">300</span>,<span style="color:#ae81ff">300</span>) <span style="color:#f92672">*</span> attenuation;
+
+        <span style="color:#75715e">// Cook-Torrance BRDF
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> NDF <span style="color:#f92672">=</span> DistributionGGX(N, H, roughness);
+        <span style="color:#66d9ef">float</span> G   <span style="color:#f92672">=</span> GeometrySmith(N, V, L, roughness);
+        vec3 F    <span style="color:#f92672">=</span> fresnelSchlick(clamp(dot(H, V), <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>), F0);
+
+        vec3 nominator    <span style="color:#f92672">=</span> NDF <span style="color:#f92672">*</span> G <span style="color:#f92672">*</span> F;
+        <span style="color:#66d9ef">float</span> denominator <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> max(dot(N, V), <span style="color:#ae81ff">0.0</span>) <span style="color:#f92672">*</span> max(dot(N, L), <span style="color:#ae81ff">0.0</span>);
+        vec3 specular <span style="color:#f92672">=</span> nominator <span style="color:#f92672">/</span> max(denominator, <span style="color:#ae81ff">0.001</span>);<span style="color:#75715e">// prevent divide by zero for NdotV=0.0 or NdotL=0.0
+</span><span style="color:#75715e"></span>
+        <span style="color:#75715e">// kS is equal to Fresnel
+</span><span style="color:#75715e"></span>        vec3 kS <span style="color:#f92672">=</span> F;
+        <span style="color:#75715e">// for energy conservation, the diffuse and specular light can&#39;t
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// be above 1.0 (unless the surface emits light); to preserve this
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// relationship the diffuse component (kD) should equal 1.0 - kS.
+</span><span style="color:#75715e"></span>        vec3 kD <span style="color:#f92672">=</span> vec3(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">-</span> kS;
+        <span style="color:#75715e">// multiply kD by the inverse metalness such that only non-metals
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// have diffuse lighting, or a linear blend if partly metal (pure metals
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// have no diffuse light).
+</span><span style="color:#75715e"></span>        kD <span style="color:#f92672">*=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> metallic;
+
+        <span style="color:#75715e">// scale light by NdotL
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> NdotL <span style="color:#f92672">=</span> max(dot(N, L), <span style="color:#ae81ff">0.0</span>);
+
+        <span style="color:#75715e">// add to outgoing radiance Lo
+</span><span style="color:#75715e"></span>        Lo <span style="color:#f92672">+=</span> (kD <span style="color:#f92672">*</span> albedo <span style="color:#f92672">/</span> PI <span style="color:#f92672">+</span> specular) <span style="color:#f92672">*</span> radiance <span style="color:#f92672">*</span> NdotL;<span style="color:#75715e">// note that we already multiplied the BRDF by the Fresnel (kS) so we won&#39;t multiply by kS again
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#75715e">// ambient lighting (note that the next IBL tutorial will replace
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// this ambient lighting with environment lighting).
+</span><span style="color:#75715e"></span>    vec3 ambient <span style="color:#f92672">=</span> vec3(<span style="color:#ae81ff">0.03</span>) <span style="color:#f92672">*</span> albedo <span style="color:#f92672">*</span> ao;
+
+    vec3 color <span style="color:#f92672">=</span> ambient <span style="color:#f92672">+</span> Lo;
+
+    <span style="color:#75715e">// HDR tonemapping
+</span><span style="color:#75715e"></span>    color <span style="color:#f92672">=</span> color <span style="color:#f92672">/</span> (color <span style="color:#f92672">+</span> vec3(<span style="color:#ae81ff">1.0</span>));
+    <span style="color:#75715e">// gamma correct
+</span><span style="color:#75715e"></span>    color <span style="color:#f92672">=</span> pow(color, vec3(<span style="color:#ae81ff">1.0</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2.2</span>));
+
+    outColor <span style="color:#f92672">=</span> vec4(color, <span style="color:#ae81ff">1.0</span>);
+}
+</code></pre></div>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

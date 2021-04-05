@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Hello Circe :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Shader Storage Buffer Object (SSBO) and the Uniform Buffer Object (UBOs) are buffer objects in OpenGL used to transfer data to shaders. Although both are very similar there are important differences between them.
+The UBO provides uniform data to the shader, in the form of uniform blocks, which is accessed through internal shader-accessible memory reads. The advantage of using the UBO instead of separate uniforms is that you can quickly switch between different sets of uniform data for different instances of the same program in you application." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/post/2021-03-27-hello/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Hello Circe">
+<meta property="og:description" content="Showing how to use SSBOs and UBOs with circe." />
+<meta property="og:url" content="/post/2021-03-27-hello/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-03-27 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  <center>
+  CS PhD canditate
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/post/2021-03-27-hello/">Hello Circe</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-03-27 
+      </span>
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>The <a href="https://www.khronos.org/opengl/wiki/Shader_Storage_Buffer_Object">Shader Storage Buffer Object</a> (SSBO) and the <a href="https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object">Uniform Buffer Object</a> (UBOs) are buffer objects in OpenGL used to transfer data to shaders. Although both are very similar there are important differences between them.</p>
+<p>The UBO provides uniform data to the shader, in the form of <em>uniform blocks</em>, which is accessed through internal shader-accessible memory reads. The advantage of using the UBO instead of separate uniforms is that you can quickly switch between different sets of uniform data for different instances of the same program in you application. Additionally, UBO accesses are faster than SSBOs.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Example of uniform block declared in GLSL code
+</span><span style="color:#75715e"></span>layout (std140) uniform PBR {
+    vec3 albedo;
+    <span style="color:#66d9ef">float</span> metallic;
+    <span style="color:#66d9ef">float</span> roughness;
+    <span style="color:#66d9ef">float</span> ao;
+};
+</code></pre></div><p>SSBOs can be used in the same way, but have some advantages over UBOs:</p>
+<ul>
+<li>SSBOs can store much more memory than UBOs (<code>128MB</code> against <code>16KB</code>).</li>
+<li>shaders can write into SSBOs (we need to atomic operations and barriers though).</li>
+<li>SSBOs can have variable size (which can be queried by the shader at runtime).</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Example of SSBO layout declared in GLSL code
+</span><span style="color:#75715e"></span>layout(std430, binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) buffer layoutName {
+    <span style="color:#66d9ef">struct</span> {
+        vec3 position;
+        vec3 color;
+    } lights[];
+};
+<span style="color:#75715e">// data can then be accessed as
+</span><span style="color:#75715e"></span>lights[i].position
+lights[i].color
+</code></pre></div><blockquote>
+<p>Although SSBOs seem to be much better then UBOs, their subtle differences are important. It really depends on the situation to decide which one to use.</p>
+</blockquote>
+<p><div class="flip">
+    
+   <IMG SRC="/img/posts/circe/teapot.gif" style="border-radius: 8px;" />
+</div>
+
+<div class="flip">
+    
+   <IMG SRC="/img/posts/circe/sphere.gif" style="border-radius: 8px;" />
+</div>
+</p>
+<p>Let&rsquo;s now discuss an example that uses both types of buffers (and gives the results above). Here we are going to setup a scene with 4 point light sources, 1 object with a PBR shader attached to it. Light data will be stored in a SSBO and PBR parameters will be stored in an UBO (the shader will access both buffers just like the two code snippets listed earlier). The steps to construct our application are as follows:</p>
+<ul>
+<li>load mesh data</li>
+<li>compile shader</li>
+<li>create and update UBO data</li>
+<li>create and set SSBO light data</li>
+</ul>
+<p>You&rsquo;ll notice that we use <code>vec3_16</code> in client code to store elements in the UBO and SSBO. That is because depending on the layout you pick &ndash; <code>std140</code>, <code>std430</code>,&hellip; &ndash; the memory must be aligned. For example, the alignment is set to be the same as the alignment of the biggest member of the struct. For some layouts,
+a 3-component vector can have its alignment rounded up to 4-component alignment, which is the case of out <code>vec3</code>, so we need to use a <code>vec3</code> with alignment of 16.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">alignas</span>(<span style="color:#ae81ff">16</span>) vec3_16 {
+  <span style="color:#66d9ef">float</span> x{<span style="color:#ae81ff">0</span>};
+  <span style="color:#66d9ef">float</span> y{<span style="color:#ae81ff">0</span>};
+  <span style="color:#66d9ef">float</span> z{<span style="color:#ae81ff">0</span>};
+};
+</code></pre></div><h3 id="scene-object">Scene Object<a href="#scene-object" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Our shader will require only vertex positions and normals. We could load the mesh from a file or use some procedural mesh:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">auto</span> include_normals <span style="color:#f92672">=</span> circe<span style="color:#f92672">::</span>shape_options<span style="color:#f92672">::</span>normal;
+circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>SceneModel mesh <span style="color:#f92672">=</span> 
+            circe<span style="color:#f92672">::</span>Shapes<span style="color:#f92672">::</span>icosphere(<span style="color:#ae81ff">5</span>, include_normals);
+<span style="color:#75715e">// or
+</span><span style="color:#75715e"></span>            circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>SceneModel<span style="color:#f92672">::</span>fromFile(<span style="color:#e6db74">&#34;path/to/file&#34;</span>, include_normals);
+</code></pre></div><h3 id="pbr-shader">PBR Shader<a href="#pbr-shader" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Here we will use a simple version of a PBR shader (<a href="/code_base/pbr/">source</a>). The required uniforms are:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// uniforms used in vertex shader
+</span><span style="color:#75715e"></span>layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) uniform mat4 projection;
+layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>) uniform mat4 model;
+layout(location <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>) uniform mat4 view;
+<span style="color:#75715e">// uniforms used in the fragment shader
+</span><span style="color:#75715e"></span>uniform vec3 camPos;
+layout (std140) uniform PBR {
+    vec3 albedo;
+    <span style="color:#66d9ef">float</span> metallic;
+    <span style="color:#66d9ef">float</span> roughness;
+    <span style="color:#66d9ef">float</span> ao;
+};
+</code></pre></div><blockquote>
+<p>Note that the fragment shader will use the an UBO to access the PBR parameters. Also, you don&rsquo;t need to set the location for each uniform (as above) or cache the locations in you code. Circe does it automatically.</p>
+</blockquote>
+<p>In order to compile the shader and use it in our scene object, we can do:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mesh.program.link(<span style="color:#e6db74">&#34;directory&#34;</span>, <span style="color:#e6db74">&#34;shader name&#34;</span>))
+    std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Failed to load model shader: &#34;</span> <span style="color:#f92672">+</span> mesh.program.err;
+</code></pre></div><p>To update the uniform values just do:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">mesh.program.use();
+mesh.program.setUniform(<span style="color:#e6db74">&#34;view&#34;</span>,
+                ponos<span style="color:#f92672">::</span>transpose(camera<span style="color:#f92672">-&gt;</span>getViewTransform().matrix()));
+mesh.program.setUniform(<span style="color:#e6db74">&#34;model&#34;</span>, ponos<span style="color:#f92672">::</span>transpose(mesh.transform.matrix()));
+mesh.program.setUniform(<span style="color:#e6db74">&#34;projection&#34;</span>,
+                ponos<span style="color:#f92672">::</span>transpose(camera<span style="color:#f92672">-&gt;</span>getProjectionTransform().matrix()));
+mesh.program.setUniform(<span style="color:#e6db74">&#34;camPos&#34;</span>, camera<span style="color:#f92672">-&gt;</span>getPosition());
+</code></pre></div><h3 id="ubo">UBO<a href="#ubo" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Circe provides a <a href="https://github.com/filipecn/circe/blob/main/circe/gl/storage/uniform_buffer.h">class</a> to handle UBOs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>UniformBuffer scene_ubo;
+</code></pre></div><p>Here we need to <em>connect</em> the UBO and the shader program in order to register the uniform blocks the shader will access and the binding point of the buffer:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">scene_ubo.push(mesh.program);
+mesh.program.setUniformBlockBinding(<span style="color:#e6db74">&#34;PBR&#34;</span>, <span style="color:#ae81ff">0</span>);
+</code></pre></div><p>Now we can store data into our UBO and it will be available to our shader. For this, we can declare a similar struct to represent our uniform block:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">alignas</span>(<span style="color:#ae81ff">16</span>) PBR_UB {
+    vec3_16 albedo;
+    <span style="color:#66d9ef">float</span> metallic{};
+    <span style="color:#66d9ef">float</span> roughness{};
+    <span style="color:#66d9ef">float</span> ao{};
+} pbr_ubo_data;
+</code></pre></div><p>and simply store it into our buffer</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// setup parameter values
+</span><span style="color:#75715e"></span>pbr_ubo_data.albedo <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">.5f</span>, <span style="color:#ae81ff">0.f</span>, <span style="color:#ae81ff">0.f</span>);
+pbr_ubo_data.ao <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+pbr_ubo_data.metallic <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span>;
+pbr_ubo_data.roughness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>;
+<span style="color:#75715e">// store in UBO
+</span><span style="color:#75715e"></span>scene_ubo[<span style="color:#e6db74">&#34;PBR&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>pbr_ubo_data;
+</code></pre></div><h3 id="ssbo">SSBO<a href="#ssbo" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Now we want to use a SSBO to store all data for the 4 lights in the scene. Remember from the beginning that the fragment shader have the definition:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">layout(std430, binding <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) buffer layoutName {
+    <span style="color:#66d9ef">struct</span> {
+        vec3 position;
+        vec3 color;
+    } lights[];
+};
+</code></pre></div><p>We can use an array of structures to easily setup the data for our <a href="https://github.com/filipecn/circe/blob/main/circe/gl/storage/shader_storage_buffer.h">ssbo class</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ponos<span style="color:#f92672">::</span>AoS aos;
+aos.pushField<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;position&#34;</span>);
+aos.pushField<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;color&#34;</span>);
+aos.resize(<span style="color:#ae81ff">4</span>);
+<span style="color:#75715e">// ... setup data and store
+</span><span style="color:#75715e"></span>circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>ShaderStorageBuffer ssbo <span style="color:#f92672">=</span> aos;
+</code></pre></div><p>and remember to bind it before draw</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">mesh.program.use();
+<span style="color:#75715e">// ... update uniforms
+</span><span style="color:#75715e"></span>ssbo.bind();
+mesh.draw();
+</code></pre></div><p>If we want to update our light parameters, we can map the buffer memory and modify it directly:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">auto</span> m <span style="color:#f92672">=</span> ssbo.memory()<span style="color:#f92672">-&gt;</span>mapped(GL_MAP_WRITE_BIT);
+<span style="color:#75715e">// update position (field 0) of the first light (index 0)
+</span><span style="color:#75715e"></span>ssbo.descriptor.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(m, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1.f</span>, <span style="color:#ae81ff">1.f</span>, <span style="color:#ae81ff">1.f</span>};
+<span style="color:#75715e">// ... modify other fields and indices
+</span><span style="color:#75715e"></span>ssbo.memory()<span style="color:#f92672">-&gt;</span>unmap();
+</code></pre></div><h3 id="putting-all-together">Putting all together<a href="#putting-all-together" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Circe provides a quick way to setup a window application through a base class called <a href="https://github.com/filipecn/circe/blob/main/circe/gl/utils/base_app.h">BaseApp</a>.
+To inherit it, we <strong>must</strong> override the <code>render</code> method:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>BaseApp {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+  MyApp() <span style="color:#f92672">:</span> BaseApp(WINDOW_WIDTH, WINDOW_HEIGHT) {
+    <span style="color:#75715e">// setup mesh
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// compile shader
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// setup UBO
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// setup SSBO
+</span><span style="color:#75715e"></span>  }
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">render</span>(circe<span style="color:#f92672">::</span>CameraInterface <span style="color:#f92672">*</span>camera) <span style="color:#66d9ef">override</span> {
+    <span style="color:#75715e">// update uniforms
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// bind ssbo
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// draw mesh
+</span><span style="color:#75715e"></span>  }
+  <span style="color:#75715e">// scene
+</span><span style="color:#75715e"></span>  circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>SceneModel mesh;
+  circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>UniformBuffer scene_ubo;
+  circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>ShaderStorageBuffer scene_ssbo;
+};
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() { <span style="color:#66d9ef">return</span> MyApp().run(); }
+</code></pre></div><p>Where</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// setup mesh
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> include_normals <span style="color:#f92672">=</span> circe<span style="color:#f92672">::</span>shape_options<span style="color:#f92672">::</span>normal;
+circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>SceneModel mesh <span style="color:#f92672">=</span> 
+            circe<span style="color:#f92672">::</span>Shapes<span style="color:#f92672">::</span>icosphere(<span style="color:#ae81ff">5</span>, include_normals);
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// compile shader
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mesh.program.link(<span style="color:#e6db74">&#34;directory&#34;</span>, <span style="color:#e6db74">&#34;shader name&#34;</span>))
+    std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Failed to load model shader: &#34;</span> <span style="color:#f92672">+</span> mesh.program.err;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// setup UBO
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">alignas</span>(<span style="color:#ae81ff">16</span>) PBR_UB {
+    vec3_16 albedo;
+    <span style="color:#66d9ef">float</span> metallic{};
+    <span style="color:#66d9ef">float</span> roughness{};
+    <span style="color:#66d9ef">float</span> ao{};
+} pbr_ubo_data;
+pbr_ubo_data.albedo <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">.5f</span>, <span style="color:#ae81ff">0.f</span>, <span style="color:#ae81ff">0.f</span>);
+pbr_ubo_data.ao <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+pbr_ubo_data.metallic <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span>;
+pbr_ubo_data.roughness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>;
+scene_ubo[<span style="color:#e6db74">&#34;PBR&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>pbr_ubo_data;    
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// setup SSBO
+</span><span style="color:#75715e"></span>ponos<span style="color:#f92672">::</span>AoS aos;
+aos.pushField<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;position&#34;</span>);
+aos.pushField<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;color&#34;</span>);
+aos.resize(<span style="color:#ae81ff">4</span>);
+<span style="color:#75715e">// light positions
+</span><span style="color:#75715e"></span>aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">10</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+<span style="color:#75715e">// light colors
+</span><span style="color:#75715e"></span>aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+scene_ssbo <span style="color:#f92672">=</span> aos;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// update uniforms
+</span><span style="color:#75715e"></span>mesh.program.use();
+mesh.program.setUniform(<span style="color:#e6db74">&#34;view&#34;</span>,
+        ponos<span style="color:#f92672">::</span>transpose(camera<span style="color:#f92672">-&gt;</span>getViewTransform().matrix()));
+mesh.program.setUniform(<span style="color:#e6db74">&#34;model&#34;</span>, ponos<span style="color:#f92672">::</span>transpose(mesh.transform.matrix()));
+mesh.program.setUniform(<span style="color:#e6db74">&#34;projection&#34;</span>,
+        ponos<span style="color:#f92672">::</span>transpose(camera<span style="color:#f92672">-&gt;</span>getProjectionTransform().matrix()));
+mesh.program.setUniform(<span style="color:#e6db74">&#34;camPos&#34;</span>, camera<span style="color:#f92672">-&gt;</span>getPosition());
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// bind ssbo    
+</span><span style="color:#75715e"></span>scene_ssbo.bind();
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// draw mesh
+</span><span style="color:#75715e"></span>mesh.draw();
+</code></pre></div><p>You can find the source code <a href="/code_base/hello-circe/">here</a>.</p>
+<p>And that is the is the result:</p>
+<div class="flip">
+    
+   <IMG SRC="/img/posts/circe/sphere.gif" style="border-radius: 8px;" />
+</div>
+
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Code_bases :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/code_base/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Code_bases">
+<meta property="og:description" content="" />
+<meta property="og:url" content="/code_base/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+
+
+
+  <link href="/code_base/index.xml" rel="alternate" type="application/rss+xml" title="filipecn" />
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  <center>
+  CS PhD canditate
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+  
+  <div class="posts">
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="/code_base/hello-circe/"></a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            0001-01-01
+          </span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          hello circe #include &lt;circe/circe.h&gt; struct alignas(16) vec3_16 { vec3_16() = default; vec3_16(float x, float y, float z) : x(x), y(y), z(z) {} vec3_16 &amp;operator=(const circe::Color &amp;color) { x = color.r; y = color.g; z = color.b; return *this; } float x{0}; float y{0}; float z{0}; }; class HelloCirce : public circe::gl::BaseApp { public: struct alignas(16) PBR_UB { vec3_16 albedo; float metallic{}; float roughness{}; float ao{}; } pbr_ubo_data; HelloCirce() : BaseApp(800, 800) { /// setup mesh ////////////////////////////////////////////////////////////  // mesh = circe::gl::SceneModel::fromFile(&quot;teapot.
+          
+          
+        </div>
+
+
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="/code_base/pbr/"></a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            0001-01-01
+          </span>
+          
+        </div>
+
+        
+
+        
+
+        <div class="post-content">
+          
+          
+          pbr shader vertex shader #version 440 core layout(location = 0) in vec3 position; layout(location = 1) in vec3 normal; layout(location = 3) uniform mat4 projection; layout(location = 4) uniform mat4 model; layout(location = 5) uniform mat4 view; out vec3 fPosition; out vec3 fNormal; void main() { fPosition = vec3(model * vec4(position, 1.0)); fNormal = mat3(transpose(inverse(model))) * normal; gl_Position = projection * view * vec4(fPosition, 1.0); }; fragment shader #version 440 core  in vec3 fPosition; in vec3 fNormal; out vec4 outColor; layout(std430, binding = 1) buffer layoutName { struct { vec3 position; vec3 color; } lights[]; }; layout (std140) uniform PBR { vec3 albedo; float metallic; float roughness; float ao; }; uniform vec3 camPos; const float PI = 3.
+          
+          
+        </div>
+
+
+      </div>
+    
+    <div class="pagination">
+  <div class="pagination__buttons">
+    
+    
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

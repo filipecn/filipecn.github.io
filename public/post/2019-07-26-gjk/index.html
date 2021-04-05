@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Convex polyhedra collision test (GJK Algorithm) :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Let&amp;rsquo;s talk about a cool and efficient way make collision tests between (convex) polyhedra. The approach here though, is a little different from the usual geometric predicates, here we will use something called the Minkowski sum.
+If we interpret a polyhedron as a set of points, two polyhedra represented by sets \(A\) and \(B\), for example, collide if \(A \cap B \neq \emptyset\). The intersection set \(A \cap B\) represents all pairs of points between \(A\) and \(B\) which have distance \(0\) between them, because well&amp;hellip; each of these pairs is composed by the same point (shared by \(A\) and \(B\))." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/post/2019-07-26-gjk/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Convex polyhedra collision test (GJK Algorithm)">
+<meta property="og:description" content="Let&#39;s talk about a cool and efficient way make collision tests between (convex) polyhedra. The approach here though, is a little different from the usual geometric predicates, here we will use something called _the Minkowski sum_." />
+<meta property="og:url" content="/post/2019-07-26-gjk/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2019-07-26 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  <center>
+  CS PhD canditate
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/post/2019-07-26-gjk/">Convex polyhedra collision test (GJK Algorithm)</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2019-07-26 
+      </span>
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>Let&rsquo;s talk about a cool and efficient way make collision tests between (convex) polyhedra. The approach here though, is a little different from the usual geometric predicates, here we will use something called <em>the Minkowski sum</em>.</p>
+<p>If we interpret a polyhedron as a set of points, two polyhedra
+represented by sets \(A\) and \(B\), for example, collide if \(A \cap B \neq \emptyset\).
+The intersection set \(A \cap B\) represents all pairs of points
+between \(A\) and \(B\) which have distance \(0\) between them, because well&hellip; each of these pairs is composed by the same point (shared by \(A\) and \(B\)).</p>
+<p>With both sets (representing our polygons) in hands, we will use an algorithm called GJK to compute the distance between two polygons. This algorithm operates on top of a point set operation called the Minkowski Sum. So let me present the Minkowsk operation first and then the GJK algorithm.</p>
+<h3 id="the-minkowski-sum">The Minkowski Sum<a href="#the-minkowski-sum" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Let \(A\) and \(B\) be two point sets. The Minkowski sum \(A \oplus B\) is defined as the set
+$$A \oplus B = { a + b : a \in A, b \in B}.$$
+The Minkowski difference is obtained by \(A \ominus B = A \oplus (-B) \).</p>
+<!-- raw HTML omitted -->
+<p>$$distance(A, B) = min { \parallel c\parallel : c \in A \ominus B }.$$</p>
+<hr>
+<blockquote>
+<p>The Euclidian distance between two polyhedra is equivalent to the distance between their Minkowski difference and the origin.</p>
+</blockquote>
+<p>For two convex polyhedra, \(A\) and \(B\), the Minkowski Sum \(C = A \oplus B\) has the following properties:</p>
+<ul>
+<li>\(C\) is a convex polyhedron;</li>
+<li>The vertices of \(C\) are sums of vertices of \(A\) and \(B\).</li>
+</ul>
+<p>Thus, the collision exists if and only if \(C\) contains the origin. The red region bellow represents the Minkowski difference set of the two shapes,
+play around with the vertices to visualize the final set, notice the origin point.</p>
+<div id="myCanvas"></div>
+
+
+<script>
+$( document ).ready(function() {
+var $window = $(window);
+
+var elem = document.getElementById('myCanvas');
+var params = { width: 500, height: 200, autostart: true };
+var two = new Two(params).appendTo(elem);
+var background = two.makeGroup();
+var foreground = two.makeGroup();
+
+var grid = new GRID.Grid(two, 50, two.width / 2, two.height / 2);
+
+var polygon = new POLYGON.PolygonObject(two, POLYGON.createCircle(50, 3));
+polygon.anchors[0].translation.set(two.width / 2, two.height / 2);
+var polygon2 = new POLYGON.PolygonObject(two, POLYGON.createCircle(50, 4));
+polygon2.anchors[0].translation.set(two.width / 2, two.height / 2);
+
+var gjk = new GJK.Gjk(two, polygon, polygon2);
+
+background.add(gjk.group);
+background.add(gjk.simplexGroup);
+
+foreground.add(polygon.mainGroup);
+foreground.add(polygon2.mainGroup);
+
+two.update();
+
+addObject(polygon);
+addObject(polygon2);
+
+two.bind('update', function(frameCount) {
+  background.remove(gjk.group);
+  gjk.makeSet(two, polygon, polygon2);
+  background.add(gjk.group);
+}).play();
+
+function addObject(o) {
+  _.each(o.points, function(p) {
+    addInteractivity(p);
+  });
+
+  _.each(o.anchors, function(p) {
+    addInteractivity(p);
+  });
+}
+
+function addInteractivity(shape) {
+  var offset = shape.parent.translation;
+  var drag = function(e) {
+    e.preventDefault();
+    var x = e.pageX - offset.x - $('#myCanvas').offset().left;
+    var y = e.pageY - offset.y - $('#myCanvas').offset().top;
+    shape.translation.set(x, y);
+  };
+  var touchDrag = function(e) {
+    e.preventDefault();
+    var touch = e.originalEvent.changedTouches[0];
+    drag({
+      preventDefault: _.identity,
+      clientX: touch.pageX,
+      clientY: touch.pageY
+    });
+    return false;
+  };
+  var dragEnd = function(e) {
+    e.preventDefault();
+    $window
+      .unbind('mousemove', drag)
+      .unbind('mouseup', dragEnd);
+  };
+  var touchEnd = function(e) {
+    e.preventDefault();
+    $(window)
+      .unbind('touchmove', touchDrag)
+      .unbind('touchend', touchEnd);
+    return false;
+  };
+  $(shape._renderer.elem)
+    .css({
+      cursor: 'pointer'
+    })
+    .bind('mousedown', function(e) {
+      e.preventDefault();
+      $window
+        .bind('mousemove', drag)
+        .bind('mouseup', dragEnd);
+    })
+    .bind('touchstart', function(e) {
+      e.preventDefault();
+      $(window)
+        .bind('touchmove', touchDrag)
+        .bind('touchend', touchEnd);
+      return false;
+    });
+}
+
+
+});
+</script>
+
+
+
+<h2 id="gilbert---johnson---keerthi-algorithm">Gilbert - Johnson - Keerthi Algorithm<a href="#gilbert---johnson---keerthi-algorithm" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>In short, the GJK algorithm tests if two objects \(A\) and \(B\) are colliding by checking if \(0 \in A \ominus B\) is <strong>true</strong>
+(simply \(distance(A, B)\)). Although it seems very straightforward (and it is indeed), the real magic and beauty of the GJK algorithm is how \(distance\) is
+implemented (A very good description of the algorithm is given by <a href="https://www.youtube.com/watch?v=Qupqu1xe7Io">Casey Muratori</a>), but first, a simple observation:</p>
+<blockquote>
+<p>The resulting Minkowski Sum of two convex polyhedra is also a convex polyhedron. Since all we care about is to check if \(0\) belongs to the final set, we only need to focus on the vertices of these geometric shapes (the convex hull), because any operation with interior points will lead to interior points of the resulting shape.</p>
+</blockquote>
+<p>The brute force algorithm would be to compute <strong>all</strong> pairs of vertices between the two polyhedra, which leaves us with <em>quadratic</em> complexity.
+In the GJK algorithm on the other hand, instead of computing the entire set \(C = A \ominus B\) explicitly, it only computes points necessary
+to find the point in \(C\) that is closest to the origin. The GJK algorithm samples these points using a <em>support mapping</em> of \(C\).</p>
+<blockquote>
+<p>Briefly, here a <em>support mapping</em> is a function that maps a given direction \(d\) into a supporting point for the convex polyhedron \(A\).
+$$S_A(d) = max \{ d^Tp, p \in A \}.$$</p>
+</blockquote>
+<p>In the 2D case, we implement this way:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ConvexPolygon</span> {
+    vec2 <span style="color:#a6e22e">support</span>(vec2 d) {
+      <span style="color:#75715e">// for all vertices, find which index the value 
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// of dot(vertices[i], d) is greater
+</span><span style="color:#75715e"></span>      ...
+      <span style="color:#75715e">// instead of a O(n) algorithm here, we can use hill climbing 
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// search. Assuming our vertex list is topologically sorted
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">return</span> vertices[max_dot_i];
+    }
+    <span style="color:#75715e">// suppose vertices form a convex shape
+</span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span> vec2 <span style="color:#f92672">&gt;</span> vertices;
+};
+</code></pre></div><p>Since \(A \ominus B\) is a linear operation, we have</p>
+<p>$$S_{A \ominus B}(d) = max \{d^Tp, p \in A \ominus B\}$$</p>
+<p>$$= max \{ d^Ta - d^Tb, a \in A, b \in B \}$$</p>
+<p>$$= max \{ d^Ta, a \in A \} - max \{ -d^Tb, b \in B \}$$</p>
+<p>$$= S_A(d) - S_B(-d)$$</p>
+<p>It means that the <em>support function</em> of the Minkowski difference can be computed from the supporting points of the individual polyhedra \(A\) and \(B\).
+Remember, the <em>support function</em> will help the algorithm to &ldquo;walk&rdquo; towards the origin, which is our point of interest, so we will choose the direction \(d\) based on this goal. But how do we know the right direction to pick? This theorem will help us answering this question:</p>
+<h4 id="_carathéodorys-theorem_"><em>Carathéodory&rsquo;s theorem</em><a href="#_carathéodorys-theorem_" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<blockquote>
+<p>For a convex body \(H\) of \( \mathbb{R}^d \) each point of \(H\) can be expressed as the convex combination of no more than \(d + 1\) points from \(H\).</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<p>Ok, it didn&rsquo;t answered directly our question, but soon thing will get clear. The message behind the theorem is that each point of a polyhedron needs no more than 4 points of that polyhedron to be expressed by,
+in fact this sub-set of \(d + 1\) points has a name:</p>
+<hr>
+<p>Suppose \(d + 1\) points \(p_0, \dots, p_d \in \mathbb{R}^d \) are affinely independent, than the set of points
+$$ S = { \theta_0 p_0 + \dots + \theta_d p_d \mid \theta_i \geq 0, 0 \leq i \leq d, \sum_{0}^{d} \theta_i = 1}$$
+is named <!-- raw HTML omitted --><!-- raw HTML omitted -->k-Simplex<!-- raw HTML omitted --><!-- raw HTML omitted -->. In other words, the simplex is the simplest polygon of its dimension, here are
+the 0-Simplex, 1-Simplex, 2-Simplex and 3-Simplex in order:</p>
+
+  <img src="/img/posts/simplex.svg"  class="center"  />
+
+
+<hr>
+<p>Since our Minkowski difference is a convex body it means that we can split it into a set of simplices (plural of simplex) and
+search for the origin inside them.</p>
+<p>However, we don&rsquo;t need to do this explicitly, otherwise we would need to compute the Minkowski difference set explicitly too.
+The strategy is to iteratively create a new simplex, at each step, that contains points closer to the origin than the step before until
+the origin happens to be inside the current simplex or be proved to be outside. We start with a 0-Simplex and keep updating with
+new points (creating a 1-Simplex, then a 2-Simplex and so on (up to \(d\)-Simplex)) until the process is finished.</p>
+<p>Before my text get even more confuse lets take a look at some code (2-dimensional case) to have a more general idea of the whole process.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">testCollision</span>(<span style="color:#66d9ef">const</span> ConvexPolygon<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> ConvexPolygon<span style="color:#f92672">&amp;</span> b) {
+  <span style="color:#75715e">// start with an arbitrary direction for the support mapping
+</span><span style="color:#75715e"></span>  vec2 d(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+  <span style="color:#75715e">// create simplex vertices (since it is 2D, we have at most 3 vertices)
+</span><span style="color:#75715e"></span>  vec2 s[<span style="color:#ae81ff">3</span>];
+  <span style="color:#75715e">// set the number of vertices of the current simplex, initially an empty simplex
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>) {
+    <span style="color:#75715e">// sample a new point from the Minkowski difference set
+</span><span style="color:#75715e"></span>    vec2 p <span style="color:#f92672">=</span> a.support(d) <span style="color:#f92672">-</span> b.support(<span style="color:#f92672">-</span>d);
+    <span style="color:#75715e">// check if the origin is outside the set
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(dot(p, d) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+      <span style="color:#66d9ef">return</span> false;
+    <span style="color:#75715e">// build and test the new simplex and compute the new direction d
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(buildAndTestSimplex(s, p, k, d))
+      <span style="color:#66d9ef">return</span> true;
+  }
+}
+</code></pre></div><p>As you may notice, the code is quite simple (and it really is!), each step we &ldquo;jump&rdquo; in the
+direction of the origin to a new simplex of our set of simplicies that exists implicitly and look for the origin point (not exactly,
+since there is more than one possible set of simplicies we are jumping between different simplicies of different sets&hellip; but that is not important here).
+The real magic though, is inside <code>buildAndTestSimplex</code>, each step we need to decide what direction to take using the current simplex, here is
+how it happens:</p>
+<h2 id="first-step-k--1">first step (\(k = 1\))<a href="#first-step-k--1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>First we start with a single point \(p\) of our \(A \ominus B\) set. There is not much to do here. The new direction to take is \(-p\).</p>
+
+  <img src="/img/posts/first.svg"  class="center"  />
+
+
+<h2 id="second-step-k--2">second step (\(k = 2\))<a href="#second-step-k--2" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+  <img src="/img/posts/second.svg"  class="center"  />
+
+
+<p>Now we have a 1-Simplex (an edge). The plane can be divided into 4 regions (just like the figure above) where we can look for the origin. The first observation is that regions
+<strong><span style="color:#ff8080;">1</span></strong> 
+ and <strong><span style="color:#ff8080;">4</span></strong> 
+
+don&rsquo;t contain the origin because the vertices were found by the support function in each direction of each of these regions, it means that
+there are no more points of the \(A \ominus B\) set there. If the origin was in region <strong><span style="color:#ff8080;">1</span></strong> 
+ or
+<strong><span style="color:#ff8080;">4</span></strong> 
+ then the algorithm would had stopped at <code>line 12</code>.</p>
+<p>So the origin is certainly or in region <strong><span style="color:#afe9af;">2</span></strong> 
+ or in region <strong><span style="color:#f2aa74;">3</span></strong> 
+ and
+the new direction is</p>
+<p>$$d = \begin{cases} &amp; (-v_y, v_x), &amp; (v \times -S_0)_z &gt; 0\\ &amp;  (v_y, -v_x), &amp; (v \times -S_0)_z &lt; 0,\end{cases}$$</p>
+<p>where
+$$v = \overline{S_0S_1}.$$</p>
+<h2 id="nth-step-k--n-n--2">\(n^{th}\) step (\(k = n, n &gt; 2\))<a href="#nth-step-k--n-n--2" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>As the same case above, we observe our plane divided:</p>
+
+  <img src="/img/posts/third.svg"  class="center"  />
+
+
+<p>If we keep the order of our vertices and use the same logic we used to exclude the regions <strong><span style="color:#ff8080;">1</span></strong> 
+ and <strong><span style="color:#ff8080;">4</span></strong> 
+ in the second step, then we can exclude regions <strong><span style="color:#ff8080;">1</span></strong> 
+, <strong><span style="color:#ff8080;">2</span></strong> 
+, <strong><span style="color:#ff8080;">3</span></strong> 
+ and <strong><span style="color:#ff8080;">7</span></strong> 
+
+here. To save some computations, we can verify first if the origin is in region <strong><span style="color:#f2aa74;">5</span></strong> 
+ and <strong><span style="color:#5599ff;">6</span></strong> 
+, and if is not then certainly is in region <strong><span style="color:#afe9af;">4</span></strong> 
+.</p>
+<p>Defining
+$$v_{02} = \overline{S_0S_2}, v_{12} = \overline{S_1S_2}$$</p>
+<p>If \((v_{02} \times -S_2).z &gt; 0 \) then the origin is in <strong><span style="color:#afe9af;">5</span></strong> 
+ and the new direction is \((-v_{02}.y, v_{02}.x)\).</p>
+<p>If \((v_{12} \times -S_2).z &lt; 0\) then the origin is in <strong><span style="color:#5599ff;">6</span></strong> 
+
+and the new direction is \((v_{12}.y, -v_{12}.x)\).</p>
+<p>Otherwise we return <code>true</code>.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>remember to arrange the order of the vertices conveniently so these equations work properly.</li>
+</ul>
+<p>Here is a very simple example of the algorithm in action:</p>
+<div id="myCanvasGJK"></div>
+
+
+<script>
+	$( document ).ready(function() {
+var $window = $(window);
+
+var elem = document.getElementById('myCanvasGJK');
+var params = { width: 500, height: 200, autostart: true };
+var two = new Two(params).appendTo(elem);
+var background = two.makeGroup();
+var foreground = two.makeGroup();
+
+var grid = new GRID.Grid(two, 50, two.width / 2, two.height / 2);
+
+var polygon = new POLYGON.PolygonObject(two, POLYGON.createCircle(50, 3));
+polygon.anchors[0].translation.set(two.width / 2, two.height / 2);
+var polygon2 = new POLYGON.PolygonObject(two, POLYGON.createCircle(50, 4));
+polygon2.anchors[0].translation.set(two.width / 2, two.height / 2);
+
+var gjk = new GJK.Gjk(two, polygon, polygon2);
+
+gjk.step(two, polygon, polygon2);
+
+foreground.add(gjk.group);
+foreground.add(gjk.simplexGroup);
+console.log(gjk.simplexGroup);
+
+background.add(polygon.mainGroup);
+background.add(polygon2.mainGroup);
+
+polygon.anchors[0].translation.set(1000, 1000);
+polygon2.anchors[0].translation.set(1000, 1000);
+
+two.update();
+
+two.bind('update', function(frameCount) {
+  if(frameCount % 100 == 0) {
+    gjk.step(two, polygon, polygon2);
+    foreground.add(gjk.simplexGroup);
+  }
+}).play();
+
+});
+</script>
+
+
+
+<p>The code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// the z coordinate of the cross product of vectors (a.x, a.y, 0) 
+</span><span style="color:#75715e">// and (b.x, b.y, 0)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">cross2D</span>(<span style="color:#66d9ef">const</span> vec2<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> vec2<span style="color:#f92672">&amp;</span> b) {
+  <span style="color:#66d9ef">return</span> a.x <span style="color:#f92672">*</span> b.y <span style="color:#f92672">-</span> a.y <span style="color:#f92672">*</span> b.x;
+}
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">buildAndTestSimplex</span>(vec2 s[], vec2 p, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>k, vec2 <span style="color:#f92672">&amp;</span>d) {
+  k <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>min(k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>);
+  s[k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> p;
+  <span style="color:#66d9ef">if</span>(k <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+    D <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>s[<span style="color:#ae81ff">0</span>];
+    <span style="color:#66d9ef">return</span> false;
+  }
+  <span style="color:#66d9ef">if</span>(k <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+    vec2 a <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> s[<span style="color:#ae81ff">0</span>];
+    <span style="color:#66d9ef">if</span>(cross(a,<span style="color:#f92672">-</span>s[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+      s[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">1</span>];
+      s[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">0</span>];
+      s[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">2</span>];
+      D <span style="color:#f92672">=</span> a.right();
+    }
+    <span style="color:#66d9ef">else</span> D <span style="color:#f92672">=</span> a.left();
+    <span style="color:#66d9ef">return</span> false;
+  }
+  vec2 a <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> s[<span style="color:#ae81ff">0</span>];
+  <span style="color:#66d9ef">if</span>(cross(a, <span style="color:#f92672">-</span>s[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+    D <span style="color:#f92672">=</span> a.left();
+    s[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">2</span>];
+    k<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">return</span> false;
+  }
+  vec2 b <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> s[<span style="color:#ae81ff">1</span>];
+  <span style="color:#66d9ef">if</span>(cross(b, <span style="color:#f92672">-</span>s[<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+    D <span style="color:#f92672">=</span> b.right();
+    s[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">2</span>];
+    k<span style="color:#f92672">--</span>;
+    <span style="color:#66d9ef">return</span> false;
+  }
+  <span style="color:#66d9ef">return</span> true;
+}
+</code></pre></div><p>The 3D case follows the same idea, the difference is that in case \(k = 3\), we have to check which side of the triangle plane
+the origin is and construct a tetrahedron. The cross products for the other cases must be adapted as well.</p>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

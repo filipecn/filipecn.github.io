@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title> :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="hello circe #include &amp;lt;circe/circe.h&amp;gt; struct alignas(16) vec3_16 { vec3_16() = default; vec3_16(float x, float y, float z) : x(x), y(y), z(z) {} vec3_16 &amp;amp;operator=(const circe::Color &amp;amp;color) { x = color.r; y = color.g; z = color.b; return *this; } float x{0}; float y{0}; float z{0}; }; class HelloCirce : public circe::gl::BaseApp { public: struct alignas(16) PBR_UB { vec3_16 albedo; float metallic{}; float roughness{}; float ao{}; } pbr_ubo_data; HelloCirce() : BaseApp(800, 800) { /// setup mesh ////////////////////////////////////////////////////////////  // mesh = circe::gl::SceneModel::fromFile(&amp;#34;teapot." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/code_base/hello-circe/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="">
+<meta property="og:description" content="hello circe #include &amp;lt;circe/circe.h&amp;gt; struct alignas(16) vec3_16 { vec3_16() = default; vec3_16(float x, float y, float z) : x(x), y(y), z(z) {} vec3_16 &amp;amp;operator=(const circe::Color &amp;amp;color) { x = color.r; y = color.g; z = color.b; return *this; } float x{0}; float y{0}; float z{0}; }; class HelloCirce : public circe::gl::BaseApp { public: struct alignas(16) PBR_UB { vec3_16 albedo; float metallic{}; float roughness{}; float ao{}; } pbr_ubo_data; HelloCirce() : BaseApp(800, 800) { /// setup mesh ////////////////////////////////////////////////////////////  // mesh = circe::gl::SceneModel::fromFile(&amp;#34;teapot." />
+<meta property="og:url" content="/code_base/hello-circe/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  <center>
+  CS PhD canditate
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/code_base/hello-circe/"></a></h1>
+  <div class="post-meta">
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="hello-circe">hello circe<a href="#hello-circe" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;circe/circe.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">alignas</span>(<span style="color:#ae81ff">16</span>) vec3_16 {
+  vec3_16() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+  vec3_16(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y, <span style="color:#66d9ef">float</span> z) <span style="color:#f92672">:</span> x(x), y(y), z(z) {}
+  vec3_16 <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> circe<span style="color:#f92672">::</span>Color <span style="color:#f92672">&amp;</span>color) {
+    x <span style="color:#f92672">=</span> color.r;
+    y <span style="color:#f92672">=</span> color.g;
+    z <span style="color:#f92672">=</span> color.b;
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+  }
+  <span style="color:#66d9ef">float</span> x{<span style="color:#ae81ff">0</span>};
+  <span style="color:#66d9ef">float</span> y{<span style="color:#ae81ff">0</span>};
+  <span style="color:#66d9ef">float</span> z{<span style="color:#ae81ff">0</span>};
+};
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloCirce</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>BaseApp {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">alignas</span>(<span style="color:#ae81ff">16</span>) PBR_UB {
+    vec3_16 albedo;
+    <span style="color:#66d9ef">float</span> metallic{};
+    <span style="color:#66d9ef">float</span> roughness{};
+    <span style="color:#66d9ef">float</span> ao{};
+  } pbr_ubo_data;
+
+  HelloCirce() <span style="color:#f92672">:</span> BaseApp(<span style="color:#ae81ff">800</span>, <span style="color:#ae81ff">800</span>) {
+    <span style="color:#75715e">/// setup mesh ////////////////////////////////////////////////////////////
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// mesh = circe::gl::SceneModel::fromFile(&#34;teapot.obj&#34;, 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//                                           circe::shape_options::normal);
+</span><span style="color:#75715e"></span>    mesh <span style="color:#f92672">=</span> circe<span style="color:#f92672">::</span>Shapes<span style="color:#f92672">::</span>icosphere(<span style="color:#ae81ff">8</span>, circe<span style="color:#f92672">::</span>shape_options<span style="color:#f92672">::</span>normal);
+    
+    <span style="color:#75715e">/// compile shader ////////////////////////////////////////////////////////
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>mesh.program.link(<span style="color:#e6db74">&#34;directory&#34;</span>, <span style="color:#e6db74">&#34;pbr&#34;</span>))
+      std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Failed to load model shader: &#34;</span> <span style="color:#f92672">+</span> mesh.program.err <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+
+    <span style="color:#75715e">/// setup UBO /////////////////////////////////////////////////////////////
+</span><span style="color:#75715e"></span>    scene_ubo.push(mesh.program);
+    mesh.program.setUniformBlockBinding(<span style="color:#e6db74">&#34;PBR&#34;</span>, <span style="color:#ae81ff">0</span>);
+
+    pbr_ubo_data.albedo <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">.5f</span>, <span style="color:#ae81ff">0.f</span>, <span style="color:#ae81ff">0.f</span>);
+    pbr_ubo_data.ao <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    pbr_ubo_data.metallic <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span>;
+    pbr_ubo_data.roughness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>;
+    scene_ubo[<span style="color:#e6db74">&#34;PBR&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>pbr_ubo_data;
+    <span style="color:#75715e">/// setup SSBO ////////////////////////////////////////////////////////////
+</span><span style="color:#75715e"></span>    ponos<span style="color:#f92672">::</span>AoS aos;
+    aos.pushField<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;position&#34;</span>);
+    aos.pushField<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;color&#34;</span>);
+    aos.resize(<span style="color:#ae81ff">4</span>);
+    <span style="color:#75715e">// positions
+</span><span style="color:#75715e"></span>    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">10</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+    <span style="color:#75715e">// colors
+</span><span style="color:#75715e"></span>    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+    aos.valueAt<span style="color:#f92672">&lt;</span>vec3_16<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>) <span style="color:#f92672">=</span> vec3_16(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>);
+    scene_ssbo <span style="color:#f92672">=</span> aos;
+    scene_ssbo.setBindingIndex(<span style="color:#ae81ff">1</span>);
+
+  }
+
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">render</span>(circe<span style="color:#f92672">::</span>CameraInterface <span style="color:#f92672">*</span>camera) <span style="color:#66d9ef">override</span> {
+    <span style="color:#75715e">// render model
+</span><span style="color:#75715e"></span>    mesh.program.use();
+    mesh.program.setUniform(<span style="color:#e6db74">&#34;view&#34;</span>,
+        ponos<span style="color:#f92672">::</span>transpose(camera<span style="color:#f92672">-&gt;</span>getViewTransform().matrix()));
+    mesh.program.setUniform(<span style="color:#e6db74">&#34;model&#34;</span>, ponos<span style="color:#f92672">::</span>transpose(mesh.transform.matrix()));
+    mesh.program.setUniform(<span style="color:#e6db74">&#34;projection&#34;</span>,
+        ponos<span style="color:#f92672">::</span>transpose(camera<span style="color:#f92672">-&gt;</span>getProjectionTransform().matrix()));
+    mesh.program.setUniform(<span style="color:#e6db74">&#34;camPos&#34;</span>, camera<span style="color:#f92672">-&gt;</span>getPosition());
+    scene_ssbo.bind();
+    mesh.draw();
+  }
+  <span style="color:#75715e">// scene
+</span><span style="color:#75715e"></span>  circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>SceneModel mesh;
+  circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>UniformBuffer scene_ubo;
+  circe<span style="color:#f92672">::</span>gl<span style="color:#f92672">::</span>ShaderStorageBuffer scene_ssbo;
+
+};
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+  <span style="color:#66d9ef">return</span> HelloCirce().run();
+}
+</code></pre></div>
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

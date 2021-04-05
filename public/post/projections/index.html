@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Coordinate Systems and _their_ Projections :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The fundamental tool we use to render our virtual world from different points of view is the coordinate system. We can define a coordinate system for each model, for each light, for the camera, and one to arrange objects in the scene. Each of these coordinate systems define a coordinate space where we can compute position, orientation and size of our objects. We can also jump between different coordinate spaces. Each different space will fit best for each kind of situation." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/post/projections/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Coordinate Systems and _their_ Projections">
+<meta property="og:description" content="An intro to projection transforms used Computer Graphics. " />
+<meta property="og:url" content="/post/projections/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-04-01 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  <center>
+  CS PhD canditate
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/post/projections/">Coordinate Systems and <em>their</em> Projections</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-04-01 
+      </span>
+    
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p>The fundamental tool we use to render our virtual world from different points of view is
+the coordinate system. We can define a coordinate system for each model,
+for each light, for the camera, and one to arrange objects in the scene. Each of these
+coordinate systems define a coordinate space where we can compute position, orientation
+and size of our objects. We can also jump between different coordinate spaces. Each different space will fit best for each kind of situation.</p>
+<p>There are many different types of coordinate systems. Here we will pay attention to two of them:
+the <strong><em>Cartesian coordinate system</em></strong> and the <strong><em>Homogeneous coordinate system</em></strong>. Then we will see
+how they can be used in Computer Graphics.</p>
+<h3 id="cartesian-coordinates">Cartesian Coordinates<a href="#cartesian-coordinates" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Perhaps the most used coordinate system, the Cartesian
+coordinate system defines perpendicular planes (\(\textbf{yz}\),\(\textbf{xz}\) and \(\textbf{xy}\)) from an orthogonal base (\(\textbf{x}\),\(\textbf{y}\),\(\textbf{z}\)) in the Euclidean space and describes positions by
+their signed distances (\(x\),\(y\),\(z\)) to each of the planes, respectively &ndash; that is our usual 3D coordinate space. Depending on how you pick the planes you may end up with a left-handed or right-handed
+system, as depicted here, respectively:</p>
+
+  <img src="/img/posts/projections/lhrh.svg"  class="center"  />
+
+
+<blockquote>
+<p>The handedness of you system is very important, because it will determine the orientation of
+objects when jumping from one coordinate space to the other. We will dive into it soon.</p>
+</blockquote>
+<h3 id="homogeneous-coordinates">Homogeneous Coordinates<a href="#homogeneous-coordinates" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Another coordinate system of great importance for us is the Homogeneous coordinate system.
+Homogeneous coordinates (also called projective coordinates) are used in the projective
+space. In 2D, the triple (\(xw\),\(yw\),\(w\)), for \(w \neq 0\), is the set of homogeneous coordinates for the point (\(x\),\(y\)) in cartesian space.</p>
+<blockquote>
+<p>Note that now each point (\(x\),\(y\)) in Euclidean space is represented by the infinity set of homogeneous coordinates defined by \(w\). In the particular case of \(w = 1\) we recover the cartesian coordinate (\(x\),\(y\),\(1\)).</p>
+</blockquote>
+<p>Roughly (and informally) speaking, you can imagine points in Euclidean space <em>sliding</em> over the lines that connect them to a point at infinity (at the origin). The extra coordinate \(w\) gives you the projection of your geometry for that particular value of \(w\). In a way, \(w\) scales our space. For \(w &lt; 1\) we get smaller objects, for \(w &gt; 1\) we get bigger objects:</p>
+
+  <img src="/img/posts/projections/homog.svg"  class="center"  />
+
+
+<blockquote>
+<p>In 3D we have a 4-dimensional coordinate system (\(xw\),\(yw\),\(zw\),\(w\)). And the projection given by \(w = 1\) gives the Cartesian space we are used to.</p>
+</blockquote>
+<p>Homogeneous coordinates allow us to perform operations &ndash; such as translation, rotation and scaling &ndash; on vectors and points in a unified manner. Such operations are described by a 4x4 matrix and the same matrix works for both vectors and points. In fact,
+GPUs use homogeneous coordinates to describe geometry in their processors, so we will use too.</p>
+<h3 id="coordinate-spaces-in-graphics">Coordinate Spaces in Graphics<a href="#coordinate-spaces-in-graphics" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>As mentioned before, every object in a scene lives in its
+own coordinate system, the scene has a global coordinate
+system to arrange all the objects, and the camera itself
+also uses a coordinate system to <em>view</em> the world.</p>
+<p>Before producing the final image, other coordinate systems come into play, such as the <strong><em>normalized device coordinate system</em></strong> (NDC) that puts everything into a box \([-1,-1,-1] \times [1,1,1]\) and finally a screen coordinate system where the image takes its final form.</p>
+<p>All this sequence of different coordinate spaces describes the path of a vertex into the rendering pipeline until its final position in the screen. The figure bellow depicts an example of a scene containing a sphere and a camera looking at it:</p>
+
+  <img src="/img/posts/projections/pipeline.svg"  class="center"  />
+
+
+<p>In the figure each numbered white arrow represents one step down the pipeline. In this example we have:</p>
+<ol>
+<li>The sphere is described in its <strong><em>local coordinate space</em></strong> (also called object space) &ndash; in this case defined by a right-handed coordinate space &ndash; which is transformed into the scene space (world space) &ndash; defined by a left-handed coordinate system.</li>
+<li>All world objects are then transformed into camera space &ndash; defined by a right-handed coordinate system. This transformation is usually called the <strong><em>look at transform</em></strong>.</li>
+<li>All space enclosed by the camera view (the frustrum) is then projected into the normalized device coordinate space. The two most common types of projection used here are the <strong>perspective</strong> and the <strong>orthographic</strong> projections.</li>
+<li>Geometry is then projected into a 2D plane in screen space (pixels) and we have our final image.</li>
+</ol>
+<p>The diagram above is just an example. We choose the set of coordinate systems the way we want. As long as we be careful to make the right transformations everything will
+work just fine.</p>
+<blockquote>
+<p>Different game engines and modelling applications use different coordinate systems to describe their coordinate spaces.</p>
+</blockquote>
+<h3 id="transformation-matrices">Transformation Matrices<a href="#transformation-matrices" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>From the graphics pipeline we can notice that our geometry
+will suffer several deformations and translations until
+it get into the final screen space. Although most of these
+transformations are linear maps, we also have
+translations and perspective projection, which can&rsquo;t be expressed as matrix multiplications. It means that we can&rsquo;t combine linear maps and translation into a single matrix.</p>
+<blockquote>
+<p>In practice we want to be able to combine all the sequence of transformations in the pipeline in a single matrix. Which is much more efficient, because doing so would require us to compute a single matrix and apply it to each vertex, instead of applying several matrices to each vertex.</p>
+</blockquote>
+<p>Here is where homogeneous coordinates come in handy. By <em>extending</em> our cartesian coordinates with the extra \(w\) we are able to represent affine transformations by matrices. Affine transformations comprise all types of transformations we encounter in the graphics pipeline :)
+Not only we can represent any transformation by a matrix, but we can also combine transformations by multiplying their matrices!</p>
+<blockquote>
+<p>For example, imagine you want to translate (move) you vertex \(p\) using matrix \(T\) and rotate it with \(R\) (in that order). You could do it one transformation a time: \(p = Tp\) and then \(p = Rp\). Or you could just combine both matrices and do \(p = RTp\). It really makes the difference when you suddnely have hundreds of thousands of vertices.</p>
+</blockquote>
+<p>Remember, now we must use homogeneous coordinates with \(w = 1\), a vertex \(p\) will have coordinates
+\([x \quad y \quad z \quad 1]^T\).</p>
+<p>Alright, enough of theory, here are the operations for translation \(T\), scaling \(S\) and rotation \(R_x\), \(R_y\) and \(R_z\) around axis \(x\), \(y\), and \(z\), respectively:</p>
+<p>$$T(t_x,t_y,t_z)\cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; t_x
+\\0 &amp; 1 &amp; 0 &amp; t_y
+\\0 &amp; 0 &amp; 1 &amp; t_z
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+x + t_x
+\\y + t_y
+\\z + t_z
+\\1
+\end{bmatrix}$$</p>
+<p>$$S(s_x,s_y,s_z)\cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+s_x &amp; 0 &amp; 0 &amp; 0
+\\0 &amp; s_y &amp; 0 &amp; 0
+\\0 &amp; 0 &amp; s_z &amp; 0
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+x\cdot s_x
+\\y\cdot s_y
+\\z\cdot s_z
+\\1
+\end{bmatrix}$$</p>
+<p>$$R_x(\theta)\cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0
+\\0 &amp; \cos\theta &amp; \sin \theta &amp; 0
+\\0 &amp; -\sin\theta &amp; \cos\theta &amp; 0
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+x
+\\y\cos\theta + z\sin\theta
+\\-y\sin\theta + z\cos\theta
+\\1
+\end{bmatrix}$$</p>
+<p>$$R_y(\theta) \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix}= \begin{bmatrix}
+\cos\theta &amp; 0 &amp; -\sin\theta &amp; 0
+\\0 &amp; 1 &amp; 0 &amp; 0
+\\\sin \theta &amp; 0 &amp; \cos\theta &amp; 0
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+x \cos\theta -z\sin\theta
+\\y
+\\x\sin\theta + z\cos\theta
+\\1
+\end{bmatrix}$$</p>
+<p>$$R_z(\theta) \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix}= \begin{bmatrix}
+\cos\theta &amp; -\sin\theta &amp; 0 &amp; 0
+\\\sin \theta &amp; \cos\theta &amp; 0 &amp; 0
+\\0 &amp; 0 &amp; 1 &amp; 0
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+x \cos\theta -y\sin\theta
+\\x\sin\theta + y\cos\theta
+\\z
+\\1
+\end{bmatrix}$$</p>
+<blockquote>
+<p>There are other cool transformations as well, such as the shear transform. In the case of rotation, a better approach is the use of quaternions &ndash; I recommend checking that out.</p>
+</blockquote>
+<p>Now that we now how to deform and move things around, let&rsquo;s see how to jump between coordinate systems with a transformation matrix \(M\). What \(M\) does is to map each axis of the orgin coordinate system to an axis of the destination system. For example, suppose we want to move from
+a left-handed coordinate system \(LH\) to a right-handed system \(RH\), as represented in the first figure, and do the map \(LH_x \rightarrow RH_x\), \(LH_y \rightarrow RH_y\), and \(LH_z \rightarrow -RH_z\):</p>
+<p>$$LH = \begin{bmatrix}
+x \quad (\textbf{right})
+\\y \quad (\textbf{up})
+\\z \quad (\textbf{front})
+\end{bmatrix} \rightarrow \begin{bmatrix}
+x \quad (\textbf{right})
+\\y \quad (\textbf{up})
+\\-z \quad (\textbf{back})
+\end{bmatrix} = RH \therefore M = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0
+\\0 &amp; 1 &amp; 0 &amp; 0
+\\0 &amp; 0 &amp; -1 &amp; 0
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}$$</p>
+<p>I put some the directions in each axis points to relative to the figure: <em>right</em>, <em>left</em>, <em>up</em>, etc. However they do not really make sense, since they pretty much depend on our point of view (or from what angle we are looking at our hands). The important thing is: which axis is mapped to which axis and in what direction.</p>
+<p>A second example: <code>Blender</code> uses a right-handed coordinate system \(B\) with \(z\) pointing upwards and \(y\) front, lets convert our previous \(LH\) system to this one following the map (check the figure bellow):</p>
+<p>$$B = \begin{bmatrix}
+x \quad (\textbf{right})
+\\y \quad (\textbf{front})
+\\z \quad (\textbf{up})
+\end{bmatrix} \rightarrow \begin{bmatrix}
+x \quad (\textbf{right})
+\\z \quad (\textbf{front})
+\\y \quad (\textbf{up})
+\end{bmatrix} = LH \therefore M = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0
+\\0 &amp; 0 &amp; 1 &amp; 0
+\\0 &amp; 1 &amp; 0 &amp; 0
+\\0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}$$</p>
+
+  <img src="/img/posts/projections/blender.svg"  class="center"  />
+
+
+<p>An example coordinate system change is the so called <em>look at</em> transform. This transform performs a coordinate change followed by a translation. It is very useful in graphics because that is how we define the coordinate system used by the camera. The idea is put the camera in the origin of the new coordinate system, and align it to one of the axis (usually \(z\) or \(-z\)):</p>
+
+  <img src="/img/posts/projections/camera.svg"  class="center"  />
+
+
+<p>Given a target position \(t\) to look at and camera position \(p\), the camera space is then defined by the 3 orthogonal vectors:</p>
+<ol>
+<li>the direction \(d\) the camera is looking at (\(t - p\)).</li>
+<li>the <em>up</em> vector \(u\), that defines the lateral tilt, orthogonal to \(d\).</li>
+<li>the <em>right</em> vector \(r\), orthogonal to the other two.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// There is a little catch here. You need to start with an 
+</span><span style="color:#75715e">// arbitrary up vector (usually (0,1,0)) and produce the
+</span><span style="color:#75715e">// right vector. The initial up vector may not be orthogonal
+</span><span style="color:#75715e">// to the direction vector, so you need to correct it by
+</span><span style="color:#75715e">// taking the cross product of the other two.
+</span><span style="color:#75715e"></span>vec3 direction <span style="color:#f92672">=</span> normalize(target <span style="color:#f92672">-</span> camera_position);
+vec3 up <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>};
+vec3 right <span style="color:#f92672">=</span> cross(direction, up);
+up <span style="color:#f92672">=</span> cross(direction, right);
+</code></pre></div><p>This transform translates objects by \(-p\), so the camera takes the origin position, then it align the axis to form the camera space. It is important to notice once more that handedness also must be taken into account, in the example above (figure) both camera space and world space use right-handed coordinate systems, but it might not be true for other occasions.</p>
+<p>The general form of the look at transform is:</p>
+<p>$$lookAt \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix}= \begin{bmatrix}
+r_x &amp; r_y &amp; r_z &amp; -p_x
+\\ u_x &amp; u_y &amp; u_z &amp; -p_y
+\\ d_x &amp; d_y &amp; d_z &amp; -p_z
+\\ 0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix}
+x
+\\y
+\\z
+\\1
+\end{bmatrix} = \begin{bmatrix}
+(x,y,z)\cdot r - p_x
+\\(x,y,z)\cdot u - p_y
+\\(x,y,z)\cdot d - p_z
+\\1
+\end{bmatrix} $$</p>
+<blockquote>
+<p>Sometimes just matching the handedness is not enough. Look the picture again and note that, in world space, the \(z\) axis is the <em>vertical</em> direction, so objects will sit in the \(xy\) plane. But the camera in this case, considers the \(y\) axis as the vertical direction &hellip; even worse, it considers \(y\) points downards! If you don&rsquo;t take it into account when constructing the \(lookAt\) matrix things might appear upside-down or inverted.</p>
+</blockquote>
+<h3 id="projection-matrices">Projection Matrices<a href="#projection-matrices" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Let&rsquo;s finish this post with the set of projections we need to complete the graphics pipeline: the perspective and orthographic projections. Both transforms serve to project the visible geometry into the box shaped volume \([-1,-1,-1] \times [1,1,1] \) <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, which later gets projected into the plane to form the final image. The figure bellow shows the working process of both orthographic and perspective projections, respectively:</p>
+
+  <img src="/img/posts/projections/projections.svg"  class="center"  />
+
+
+<p>Both projections work on top of a <em>view volume</em> (in blue) &ndash; the region of the scene that will be rendered. In the camera&rsquo;s view direction the view volume is clipped by the <em>near</em> and <em>far</em> planes. The volume is later projected into a <em>projection plane</em> to form the final image.</p>
+<p>Each of theses projections produce a different effect. The orthographic projection, also called <em>parallel projection</em>, \(P_o\) keeps all angles and distances regardless the position of the objects. Because it already starts with a box shaped region \([l,b,n] \times [r,t,f]\) &ndash; standing for the axis limits [left, bottom, near] x [right, top, far] &ndash; , the region only needs to be resized and translated:</p>
+<p>$$P_o = \begin{bmatrix}
+2 / (r-l) &amp; 0 &amp; 0 &amp; -(r+l)/(r-l)
+\\ 0 &amp; 2 / (b-t) &amp; 0 &amp; -(b+t)/(b-t)
+\\ 0 &amp; 0 &amp; 2/(f-n) &amp; -(n+f)/(f-n)
+\\ 0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}$$</p>
+<blockquote>
+<p>Attention: all projection matrices here follow the coordinate system used in the figure.</p>
+</blockquote>
+<p>The perspective projection on the other hand gives the 3D effect, making objects closer to the camera appear bigger than objects far away. This happens because now we start with a truncated pyramid like region, called frustrum, that gets deformed into the box shape. Note that when the deformation happens, the <em>thinner</em> region gets streched. The shape of the frustrum is given by the <em>field of view</em> angle (<strong>fov</strong>)<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and the position of the projection plane.</p>
+<p>What the perspective projection is doing is to &ldquo;calculate&rdquo;
+where in the projection plane each vertex gets projected onto. The projection plane sits in the \(z\) coordinate value where \(y\) ranges from \(-1\) to \(1\), if we use the vertical fov. The range of \(x\) at
+this point will depend on the aspect ratio of the clipping planes.</p>
+<p>I&rsquo;ll not enter in details, but it involves a division by the \(z\) coordinate of the camera position, \(p_z\), called the <em>perspective divide</em>. The \(p_z\) is the value of \(w\) in our homogeneous coordinates after the projection into the projection plane. When \(w = 1\), the frustrum becomes a box shaped region and we get the desired result.</p>
+<p>Given the \(z\) coordinates for the near plane \(n\) and
+for the far plane \(f\), the aspect ration \(a\) and vertical
+fov \(\textbf{fovy}\), the perspective matrix \(P_p\) :</p>
+<p>$$P_p = \begin{bmatrix}
+k / s &amp; 0 &amp; 0 &amp; 0
+\\ 0 &amp; k &amp; 0 &amp; 0
+\\ 0 &amp; 0 &amp; (f+n)/(f-n) &amp; -2nf/(f-n)
+\\ 0 &amp; 0 &amp; 1 &amp; 0
+\end{bmatrix}$$
+where \(k = 1 / \tan(\textbf{fovy} / 2)\).</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>The output of the perspective, or orthographic, projection is called the normalized device coordinate system. The limits of this box shaped region depend on what graphics system we are using. OpenGL expects the volume to be \([-1,-1,-1] \times [1,1,1]\), while DirectX expects it to be \([-1,-1,0] \times [1,1,1]\). <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>There are two fov angles actually, one vertical, called <strong>fovy</strong> and one horizontal, called <strong>fovx</strong>. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
