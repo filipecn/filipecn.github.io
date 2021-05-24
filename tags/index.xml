@@ -5,6 +5,34 @@
     <link>/tags/</link>
     <description>Recent content in Tags on filipecn</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>devlog</title>
+      <link>/tags/devlog/</link>
+      <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/devlog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>real-time</title>
+      <link>/tags/real-time/</link>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/real-time/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rendering</title>
+      <link>/tags/rendering/</link>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rendering/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

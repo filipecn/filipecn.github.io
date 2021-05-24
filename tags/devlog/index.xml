@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>devlog on filipecn</title>
+    <link>/tags/devlog/</link>
+    <description>Recent content in devlog on filipecn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/devlog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>devlog 1</title>
+      <link>/post/devlog1/</link>
+      <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/devlog1/</guid>
+      <description>I decided to register my coding activities in this series of devlog blog posts.
+Cubemap textures Now circe has some convenient functions to handle cubemap textures. Loading from separate files is easily done by
+auto cubemap = circe::gl::Texture::fromFiles({ &amp;#34;.../skybox/right.jpg&amp;#34;, &amp;#34;.../skybox/left.jpg&amp;#34;, &amp;#34;.../skybox/top.jpg&amp;#34;, &amp;#34;.../skybox/bottom.jpg&amp;#34;, &amp;#34;.../skybox/front.jpg&amp;#34;, &amp;#34;.../skybox/back.jpg&amp;#34; }); A single file containing an equirectangular mapped texture, for example, can be loaded as a cubemap :
+auto cubemap = circe::gl::Texture::fromFile(&amp;#34;.../image.hdr&amp;#34;, circe::texture_options::equirectangular | circe::texture_options::hdr, circe::texture_options::cubemap);  HDR textures are now supported as well.</description>
+    </item>
+    
+  </channel>
+</rss>

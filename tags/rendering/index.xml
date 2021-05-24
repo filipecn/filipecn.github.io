@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rendering on filipecn</title>
+    <link>/tags/rendering/</link>
+    <description>Recent content in rendering on filipecn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/rendering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interplay of Light</title>
+      <link>/post/pbr-area-lights/</link>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/pbr-area-lights/</guid>
+      <description>This text is just my personal notes on BRDFs. The text is heavily based on these references: real time rendering book, learn opengl website, Google&amp;rsquo;s Filament and here.
+ Let&amp;rsquo;s consider light modeled as an electromagnetic wave (but treated as a ray when convenient), and our rendered image as the combination of all light that get into the camera sensors.
+ An important property of light is the wavelength \(\lambda\), because it is related to the color of a particular light wave.</description>
+    </item>
+    
+  </channel>
+</rss>

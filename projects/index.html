@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Projects Physically Based Simulations               GLSL Editor  A simple shader editor tool that provides a conveninent and quick way to test shader ideas. Here you can edit shader files and see the results in real time.
-            Everything can be done inside the application screen, from code editing to uniform value setting." />
+<meta name="description" content="Projects Physically Based Simulations               BRDF Explorer        A tool to experiment and test different models of brdfs for PBR rendering. Here you can choose between different implementations for the normal distribution function, joint masking-shadowing function and Fresnel reflectance components. Some parameters can be controlled as well.
+Comming up  Disney diffuse model Anisotropic models   GLSL Editor  A simple shader editor tool that provides a convenient and quick way to test shader ideas." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="/projects/" />
@@ -40,8 +40,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="">
-<meta property="og:description" content="Projects Physically Based Simulations               GLSL Editor  A simple shader editor tool that provides a conveninent and quick way to test shader ideas. Here you can edit shader files and see the results in real time.
-            Everything can be done inside the application screen, from code editing to uniform value setting." />
+<meta property="og:description" content="Projects Physically Based Simulations               BRDF Explorer        A tool to experiment and test different models of brdfs for PBR rendering. Here you can choose between different implementations for the normal distribution function, joint masking-shadowing function and Fresnel reflectance components. Some parameters can be controlled as well.
+Comming up  Disney diffuse model Anisotropic models   GLSL Editor  A simple shader editor tool that provides a convenient and quick way to test shader ideas." />
 <meta property="og:url" content="/projects/" />
 <meta property="og:site_name" content="filipecn" />
 
@@ -238,12 +238,53 @@
 </p>
 <p>
         <h1 class="post-title">
+          BRDF Explorer
+        </h1>
+
+
+
+<div class="flip">
+    <div class="front" style="background-image: url(/img/projects/brdfexpl.gif)">
+    
+    
+    </div>
+    
+    <div class="back" style="background-image: url(/img/projects/brdfexpl.png)">
+        
+        
+        </div>
+    
+</div>
+
+<div class="flip">
+    <div class="front" style="background-image: url(/img/projects/brdf.png)">
+    
+    
+    </div>
+    
+    <div class="back" style="background-image: url(/img/projects/brdfexpl3.png)">
+        
+        
+        </div>
+    
+</div>
+</p>
+<p>A <a href="https://github.com/filipecn/brdf-explorer">tool</a> to experiment and test different models of brdfs for PBR rendering.
+Here you can choose between different implementations for the <em>normal distribution function</em>, <em>joint masking-shadowing function</em> and <em>Fresnel reflectance</em>
+components. Some parameters can be controlled as well.</p>
+<h2 id="comming-up">Comming up</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Disney diffuse model</li>
+<li><input disabled="" type="checkbox"> Anisotropic models</li>
+</ul>
+<p>
+        <h1 class="post-title">
           GLSL Editor
         </h1>
 
 
 
-A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a> tool that provides a conveninent and quick way to test shader ideas. Here you can edit shader files and see the results in real time.</p>
+A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a> tool that provides a convenient and quick way to test shader ideas. Here you can edit shader files and see the results in real time.</p>
 <p><div class="flip">
     <div class="front" style="background-image: url(/img/projects/topo.png)">
     
@@ -303,7 +344,7 @@ A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a
 <li>Visual cues for debugging (point light, directional light)</li>
 <li>Custom uniforms support (you can create uniforms (uniform arrays are supported as well))</li>
 </ul>
-<h2 id="comming-up">Comming up</h2>
+<h2 id="comming-up-1">Comming up</h2>
 <ul>
 <li><input disabled="" type="checkbox"> Add other useful uniforms: time, mouse position, camera position</li>
 <li><input disabled="" type="checkbox"> Pass other mesh information to the shader as well.</li>
@@ -367,7 +408,7 @@ A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a
 <li><strong>Common</strong>: file system (bash-like) methods, string utils;</li>
 </ul>
 <p>and other utilities such as thread pools, colored console output, memory dump, fast sweep algorithms, etc.</p>
-<h2 id="comming-up-1">Comming up</h2>
+<h2 id="comming-up-2">Comming up</h2>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> color struct fields in a memory dump inside the console.</li>
 </ul>
@@ -388,7 +429,7 @@ but now there is a lot more I can do with it than I previously expected :)</p>
 <li><strong>IO</strong>: texture, viewport displays, text, buffers, render buffers, framebuffer access;</li>
 </ul>
 <p>and other useful utilities such as color palettes, mesh loading, primitive intersection, mouse picking, BVH, etc.</p>
-<h2 id="comming-up-2">Comming up</h2>
+<h2 id="comming-up-3">Comming up</h2>
 <ul>
 <li><input disabled="" type="checkbox"> improve the scene graph.</li>
 <li><input disabled="" type="checkbox"> add procedural methods for terrain generation</li>
@@ -401,7 +442,7 @@ but now there is a lot more I can do with it than I previously expected :)</p>
 
 
 <a href="https://github.com/filipecn/odysseus">Odysseus</a> is an ongoing project, on its early steps, of a data driven game engine.</p>
-<h2 id="comming-up-3">Comming up</h2>
+<h2 id="comming-up-4">Comming up</h2>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> Pool Allocator</li>
 <li><input checked="" disabled="" type="checkbox"> Stack and Double Stack Allocators</li>
@@ -422,7 +463,7 @@ but now there is a lot more I can do with it than I previously expected :)</p>
 <li><strong>Numeric</strong>: interpolation, staggered grids, finite difference matrices;</li>
 <li><strong>Storage</strong>: memory blocks, arrays, texture memory regions;</li>
 </ul>
-<h2 id="comming-up-4">Comming up</h2>
+<h2 id="comming-up-5">Comming up</h2>
 
     </div>
   

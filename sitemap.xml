@@ -4,17 +4,47 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2021-04-01T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/projections/</loc>
-    <lastmod>2021-04-01T00:00:00+00:00</lastmod>
+    <loc>/tags/devlog/</loc>
+    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/devlog1/</loc>
+    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
+    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/pbr-area-lights/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/real-time/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rendering/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/projections/</loc>
     <lastmod>2021-04-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -70,10 +100,6 @@
   
   <url>
     <loc>/code_base/</loc>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
   </url>
   
 </urlset>
