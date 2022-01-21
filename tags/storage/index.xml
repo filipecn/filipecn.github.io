@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>storage on filipecn</title>
+    <link>/tags/storage/</link>
+    <description>Recent content in storage on filipecn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/storage/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPU/CPU Memory Stack Allocator</title>
+      <link>/post/gpu_memory_allocator/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/gpu_memory_allocator/</guid>
+      <description>In this post I&amp;rsquo;ll experiment an idea to keep pointers of a memory block between CPU and GPU. The motivation here is to allow ourselves to allocate memory and instantiate objects on CPU side and be able to use their memory addresses in GPU.
+Of course addresses change after we copy our data to the GPU! But I want to use a very basic idea: store memory address offsets instead of actual memory addresses.</description>
+    </item>
+    
+  </channel>
+</rss>

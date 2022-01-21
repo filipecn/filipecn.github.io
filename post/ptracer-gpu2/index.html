@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>A path tracer with CUDA - prt 2 :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="In the last post I decide to follow the tile strategy. We want to process tiles of pixels in parallel. Each thread will handle a single tile by rendering all its pixels sequentially, then each tile will be indexed based on the thread&amp;rsquo;s grid position (CUDA):
+// tile index hermes::index2 tile_index(threadIdx.x &#43; blockIdx.x * blockDim.x, threadIdx.y &#43; blockIdx.y * blockDim.y);  The first consequence here is that multiple tiles will dispute for the local memory in the streaming multi-processor." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/post/ptracer-gpu2/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="A path tracer with CUDA - prt 2">
+<meta property="og:description" content="Ray generation and tile rendering." />
+<meta property="og:url" content="/post/ptracer-gpu2/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-09-03 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+
+  <center>
+<p></p>
+  <strong> CS PhD canditate </strong> | filipedecn@gmail.com | <a href="https://github.com/filipecn">github</a> | <a href="https://www.linkedin.com/in/filipecn/">linkedin</a>
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/post/ptracer-gpu2/">A path tracer with CUDA - prt 2</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-09-03 
+      </span>
+    
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="/tags/rendering/">rendering</a>&nbsp;
+    
+    #<a href="/tags/gpu/">gpu</a>&nbsp;
+    
+  </span>
+  
+
+  
+
+  
+    <div class="table-of-contents">
+      <h2>
+        
+          Table of Contents
+        
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sampling-pool">Sampling Pool</a></li>
+    <li><a href="#stratified-sampler">Stratified Sampler</a></li>
+    <li><a href="#notes">Notes</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <p>In the <a href="/post/ptracer-gpu/">last</a> post I decide to follow the tile strategy. We want to
+process tiles of pixels in parallel. Each thread will handle a single tile by rendering all its pixels sequentially,
+then each tile will be indexed based on the thread&rsquo;s grid position (CUDA):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// tile index
+</span><span style="color:#75715e"></span>hermes<span style="color:#f92672">::</span>index2 tile_index(threadIdx.x <span style="color:#f92672">+</span> blockIdx.x <span style="color:#f92672">*</span> blockDim.x,
+                          threadIdx.y <span style="color:#f92672">+</span> blockIdx.y <span style="color:#f92672">*</span> blockDim.y);        
+</code></pre></div><blockquote>
+<p>The first consequence here is that multiple tiles will dispute for the local memory in the streaming multi-processor. But let&rsquo;s keep simple and go on :)</p>
+</blockquote>
+<p>The pixel region \((x_0, y_0) \times (x_1, y_1)\) the tile <code>tile_index</code> covers can be easily computed as:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">auto</span> x0 <span style="color:#f92672">=</span> tile_index.i <span style="color:#f92672">*</span> tile_size;
+<span style="color:#66d9ef">auto</span> x1 <span style="color:#f92672">=</span> x0 <span style="color:#f92672">+</span> tile_size;
+<span style="color:#66d9ef">auto</span> y0 <span style="color:#f92672">=</span> tile_index.j <span style="color:#f92672">*</span> tile_size;
+<span style="color:#66d9ef">auto</span> y1 <span style="color:#f92672">=</span> y0 <span style="color:#f92672">+</span> tile_size;
+bounds2i <span style="color:#a6e22e">tile_bounds</span>({x0, y0}, {x1, y1});
+<span style="color:#75715e">// In the actual code, we need to take in consideration the offset of 
+</span><span style="color:#75715e">// the super tile being rendered and of course, clamp to image borders
+</span></code></pre></div><p>Now we render each pixel sequentially. Each pixel spawns multiple rays that will contribute with its final color. The rays leaving a particular pixel
+are generated following randomly sampled points in the pixel area. The <code>Sampler</code> class takes the pixel position and generates the random points we need.
+Each point is then passed to the <code>Camera</code> that computes the actual ray. Rays are instances of <code>RayDifferential</code>.</p>
+<p>Each ray accumulates radiance (stored in the <code>Spectrum</code> class), and the combined radiance of all rays of a pixel will give its final color.
+However, considering that real-world cameras
+may register the final image into different types of film, we might want to apply filtering to our pixels as well. Thus, the idea is to have a class
+<code>FilmTile</code> that perform those operations and is merged into the final <code>Film</code> later to form the final image. Here is the code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">auto</span> film_tile <span style="color:#f92672">=</span> film.getFilmTile(tile_bounds);
+<span style="color:#75715e">// loop over pixels in tile
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">auto</span> ij : tile_bounds) {
+    <span style="color:#75715e">// initiate sampler to generate the pixel samples
+</span><span style="color:#75715e"></span>    sampler.startPixel(ij);
+    <span style="color:#66d9ef">do</span> {
+        <span style="color:#75715e">// retrieve pixel samples
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">auto</span> sample <span style="color:#f92672">=</span> sampler.sample(ij);
+        <span style="color:#75715e">// compute camera ray
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">auto</span> ray <span style="color:#f92672">=</span> camera.generateRayDifferential(sample);
+        <span style="color:#75715e">// traces ray through the scene and computes its radiance
+</span><span style="color:#75715e"></span>        Spectrum L <span style="color:#f92672">=</span> ...
+        <span style="color:#75715e">// register radiance into film tile
+</span><span style="color:#75715e"></span>        film_tile.addSample(sample, L);
+    } <span style="color:#66d9ef">while</span>(sampler.startNextSample());
+}
+<span style="color:#75715e">// store final film tile radiances into final film 
+</span><span style="color:#75715e"></span>film.mergeFilmTile(film_tile);
+</code></pre></div><blockquote>
+<p>Ok, there is a lot going on already and lots of classes that were not properly introduced. However I must recall that all that comes from PBRT. I&rsquo;ll focus only on the main differences and details about my implementation.</p>
+</blockquote>
+<p>Let&rsquo;s start with the <code>Sampler</code>.</p>
+<h2 id="sampling-pool">Sampling Pool<a href="#sampling-pool" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Each rendering technique will require different amounts of samples per pixel. Each sample can be 1-dimensional or 2-dimensional.
+For example, we may need a sample for a 2D position in the pixel, and another 1D sample for time. We might even need arrays of samples as well.
+It really depends on the algorithm being used. However, each pixel will require the same amount of samples.</p>
+<p>Since now we will be doing things on the GPU, the idea is to pre-allocate all necessary memory required by samples
+in the GPU global memory and let it just be recycled as pixels are rendered.</p>
+<p>We could also avoid calculation during rendering by actually pre-generating samples before rendering.
+Regardless wether we store samples for all pixels or not, we still need to pre-allocate and manage memory
+for the samples. I&rsquo;m thinking something along these lines:</p>
+
+  <img src="/img/posts/pbrt-cuda/sample_pool.svg"  class="center"  />
+
+
+<p>The upper row in the figure represents the storage of a block of samples used by a single pixel.
+1D and 2D samples are grouped in pairs that are called <em>dimensional</em> samples &ndash; nothing to do with 1D or 2D. The remaining
+stores the arrays of samples, which might not exist depending on the renderer.</p>
+<p>Each block of samples (the entire upper row), in the figure called <em>pixel sample</em>, belongs to a pool item
+in the <code>SamplePool</code>. The <code>SamplePool</code> manages all the memory used by the pixel samples from all tiles active in the GPU.
+A pool item comprises a header
+containing the sizes of the sample arrays stored in each <em>pixel sample</em> followed by an array of <em>pixel sample</em> blocks.
+Each pool item can serve all the memory used by a tile for example.</p>
+<h2 id="stratified-sampler">Stratified Sampler<a href="#stratified-sampler" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>I implemented the <code>StratifiedSampler</code>, which subdivides the sampling region (pixel area) with a regular grid and generates a
+sample in each grid cell. A simple usage example goes like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Here we define a 2x2 grid (4 samples), jittering and 3 sampling dimensions
+</span><span style="color:#75715e"></span>StratifiedSampler <span style="color:#a6e22e">sampler</span>(hermes<span style="color:#f92672">::</span>size2(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>), true, <span style="color:#ae81ff">3</span>);
+<span style="color:#75715e">// Allocate required memory for the pool
+</span><span style="color:#75715e">// Here considering a pool with just 1 item
+</span><span style="color:#75715e"></span>hermes<span style="color:#f92672">::</span>UnifiedMemory mem(sampler.memorySize() <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>);
+<span style="color:#75715e">// Let the sampler know the memory it will use
+</span><span style="color:#75715e"></span>sampler.setDataPtr(mem.ptr());
+<span style="color:#75715e">// Generate samples for the first item
+</span><span style="color:#75715e"></span>sampler.startPixel({});
+<span style="color:#75715e">// Now can access the sample pool
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> pool <span style="color:#f92672">=</span> sampler.samplePool();
+<span style="color:#75715e">// Let&#39;s iterate by the grid and print the generated samples
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> ij : hermes<span style="color:#f92672">::</span>range2(hermes<span style="color:#f92672">::</span>size2(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>))) {
+    HERMES_LOG_VARIABLE( ij );
+    HERMES_LOG_VARIABLE( pool.get1DSample() );
+    HERMES_LOG_VARIABLE( pool.get2DSample() );
+}
+</code></pre></div><p>Here is the output:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span> ij <span style="color:#f92672">=</span> Index[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>]
+<span style="color:#f92672">&gt;</span> pool.get1DSample() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0206782</span>
+<span style="color:#f92672">&gt;</span> pool.get2DSample() <span style="color:#f92672">=</span> Point2[<span style="color:#ae81ff">0.00485516</span> <span style="color:#ae81ff">0.396543</span>]
+<span style="color:#f92672">&gt;</span> ij <span style="color:#f92672">=</span> Index[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>]
+<span style="color:#f92672">&gt;</span> pool.get1DSample() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.243698</span>
+<span style="color:#f92672">&gt;</span> pool.get2DSample() <span style="color:#f92672">=</span> Point2[<span style="color:#ae81ff">0.0563314</span> <span style="color:#ae81ff">0.322041</span>]
+<span style="color:#f92672">&gt;</span> ij <span style="color:#f92672">=</span> Index[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>]
+<span style="color:#f92672">&gt;</span> pool.get1DSample() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0997249</span>
+<span style="color:#f92672">&gt;</span> pool.get2DSample() <span style="color:#f92672">=</span> Point2[<span style="color:#ae81ff">0.018033</span> <span style="color:#ae81ff">0.359203</span>]
+<span style="color:#f92672">&gt;</span> ij <span style="color:#f92672">=</span> Index[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>]
+<span style="color:#f92672">&gt;</span> pool.get1DSample() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.475705</span>
+<span style="color:#f92672">&gt;</span> pool.get2DSample() <span style="color:#f92672">=</span> Point2[<span style="color:#ae81ff">0.870503</span> <span style="color:#ae81ff">0.137873</span>]
+</code></pre></div><p>In another test considering sample arrays:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Defining a pool item containing 10 samples per pixel
+</span><span style="color:#75715e">// 3 dimensional samples, i.e. 3 pairs of 1d/2d samples per pixel sample
+</span><span style="color:#75715e">// 1 array of 1d samples containing 1 sample per pixel sample
+</span><span style="color:#75715e">// 2 arrays of 2d samples containing 1 sample per pixel sample
+</span><span style="color:#75715e"></span>SamplePool<span style="color:#f92672">::</span>PoolDescriptor descriptor <span style="color:#f92672">=</span> {
+    .samples_per_pixel <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>,
+    .dimensions <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
+    .array1_sizes <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>},
+    .array2_sizes <span style="color:#f92672">=</span> {<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>}
+};
+<span style="color:#75715e">// Generate samples
+</span><span style="color:#75715e"></span>...
+<span style="color:#75715e">// Dump memory
+</span><span style="color:#75715e"></span>SamplePool<span style="color:#f92672">::</span>dumpMemory(pool, pool_size);
+</code></pre></div><p>The screenshot bellow shows the beginning of the pixel sample block:</p>
+
+  <img src="/img/posts/pbrt-cuda/dump_mem.png"  class="center"  />
+
+
+<p>First we find the header containing the array sizes 1, 2, and 1.
+Then follows the list of pixel samples, being only 2 visible in the screenshot.
+The pixel sample starts with  3 pairs of 1 1D sample and 1 2D sample, with values [0, (0, 10)],
+[1, (0, 11)] and [2, (0, 12)] in the screenshot. In the remaining
+of the pixel sample lie the arrays (56 bytes).</p>
+<h2 id="notes">Notes<a href="#notes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li>Since pixels inside a thread are rendered sequentially, we could store samples just for 1 pixel per tile. Then every time the next pixel of that tile is rendered, the samples are re-calculated using the same memory.</li>
+</ul>
+<blockquote>
+<p>The <a href="/post/ptracer-gpu2/">next</a> post talks about how we deal with objects and data structures.</p>
+</blockquote>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

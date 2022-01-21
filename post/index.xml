@@ -6,7 +6,88 @@
     <description>Recent content in Posts on filipecn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A path tracer with CUDA - prt 4</title>
+      <link>/post/ptracer-gpu4/</link>
+      <pubDate>Sat, 02 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu4/</guid>
+      <description>What we have so far:
+ Polymorphism is now forbidden! Instead, we store a pointer to the child object and cast properly before access (part 3) In practice, I&amp;rsquo;ll be casting objects with macros  Relations between classes In PBRT you have a class Shape that is inherited by classes such as Sphere and Cylinder. A Shape child stores the geometric information for a particular shape &amp;ndash; vertices, faces, position, scale, etc.</description>
+    </item>
+    
+    <item>
+      <title>GPU/CPU Memory Stack Allocator</title>
+      <link>/post/gpu_memory_allocator/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/gpu_memory_allocator/</guid>
+      <description>In this post I&amp;rsquo;ll experiment an idea to keep pointers of a memory block between CPU and GPU. The motivation here is to allow ourselves to allocate memory and instantiate objects on CPU side and be able to use their memory addresses in GPU.
+Of course addresses change after we copy our data to the GPU! But I want to use a very basic idea: store memory address offsets instead of actual memory addresses.</description>
+    </item>
+    
+    <item>
+      <title>vtables vs switches</title>
+      <link>/post/vtables-vs-switches/</link>
+      <pubDate>Tue, 07 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/vtables-vs-switches/</guid>
+      <description>Imagine this: you have a super class Letter and the whole alphabet of classes &amp;ndash; A, &amp;hellip;, Z &amp;ndash; that inherits from it. All children implement a method of Letter called spell that returns a char with the ascii of its respective letter. So, for instance, class A::spell() returns &#39;a&#39;.
+Now you have an array with thousands of thousands of Letter children and you want to call spell for each of them &amp;ndash; the classic usage of polymorphism.</description>
+    </item>
+    
+    <item>
+      <title>A path tracer with CUDA - prt 3</title>
+      <link>/post/ptracer-gpu3/</link>
+      <pubDate>Sun, 05 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu3/</guid>
+      <description>What we have so far:
+ The image will be rendered in the GPU in groups of tiles. Each tile covers a sub-region of the image with 16x16 pixels. (part 1) A set of rays is generated for each pixel. Each ray direction is based on a random sample of the pixel&amp;rsquo;s area. We pre-compute and store all samples with a SamplePoll structure. (part 2)  The next topic is the way we will handle our objects (scene objects, materials, lights, etc&amp;hellip;).</description>
+    </item>
+    
+    <item>
+      <title>A path tracer with CUDA - prt 2</title>
+      <link>/post/ptracer-gpu2/</link>
+      <pubDate>Fri, 03 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu2/</guid>
+      <description>In the last post I decide to follow the tile strategy. We want to process tiles of pixels in parallel. Each thread will handle a single tile by rendering all its pixels sequentially, then each tile will be indexed based on the thread&amp;rsquo;s grid position (CUDA):
+// tile index hermes::index2 tile_index(threadIdx.x + blockIdx.x * blockDim.x, threadIdx.y + blockIdx.y * blockDim.y);  The first consequence here is that multiple tiles will dispute for the local memory in the streaming multi-processor.</description>
+    </item>
+    
+    <item>
+      <title>A path tracer with CUDA - prt 1</title>
+      <link>/post/ptracer-gpu/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu/</guid>
+      <description>This will be my next journey. I finally organized my self to get into the PBRT book. The idea for this project is to implement it (well.. at least part of it). Also, to make thinks even harder I decided to make use of the GPU. Hopefully, it will be my own version of PBRT in CUDA.
+ Important note: this will be my learning exercise, not only about rendering but also about CUDA.</description>
+    </item>
+    
+    <item>
+      <title>Memory Dumps</title>
+      <link>/post/memory_dumps/</link>
+      <pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/memory_dumps/</guid>
+      <description>I&amp;rsquo;ve been looking at memory dumps often lately. Since I usually (always) debug with &amp;lsquo;printf&amp;rsquo;, I needed a better visual for my memory dumps. I decided to do a simple memory dumper:
+And added some features:
+ Colored output Different data types (hex, decimal, &amp;hellip;) You can specify different regions with different colors and sub-regions Print actual data values Array elements alternate between bold and normal styles Display cache alignment  Here is a example:</description>
+    </item>
+    
+    <item>
+      <title>Scott Meyers&#39; Universal References</title>
+      <link>/post/uref/</link>
+      <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/uref/</guid>
+      <description>I came across an another very clarifying talk of the legend Scott Meyers presenting Universal References in C++11 back in 2012. In this talk he calls our attention to the misleading usage of template parameters T&amp;amp;&amp;amp;, which we usually assume being rvalue references in all situations. It happens that it is not always the case.
+The fact is that T&amp;amp;&amp;amp; becomes a rvalue reference or a lvalue reference depending on the case.</description>
+    </item>
+    
     <item>
       <title>devlog 1</title>
       <link>/post/devlog1/</link>

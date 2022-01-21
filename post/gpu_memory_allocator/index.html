@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>GPU/CPU Memory Stack Allocator :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="In this post I&amp;rsquo;ll experiment an idea to keep pointers of a memory block between CPU and GPU. The motivation here is to allow ourselves to allocate memory and instantiate objects on CPU side and be able to use their memory addresses in GPU.
+Of course addresses change after we copy our data to the GPU! But I want to use a very basic idea: store memory address offsets instead of actual memory addresses." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/post/gpu_memory_allocator/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="GPU/CPU Memory Stack Allocator">
+<meta property="og:description" content="Memory: CPU pointers - GPU pointers!" />
+<meta property="og:url" content="/post/gpu_memory_allocator/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-10-01 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+
+  <center>
+<p></p>
+  <strong> CS PhD canditate </strong> | filipedecn@gmail.com | <a href="https://github.com/filipecn">github</a> | <a href="https://www.linkedin.com/in/filipecn/">linkedin</a>
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/post/gpu_memory_allocator/">GPU/CPU Memory Stack Allocator</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-10-01 
+      </span>
+    
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="/tags/c&#43;&#43;/">c&#43;&#43;</a>&nbsp;
+    
+    #<a href="/tags/gpu/">gpu</a>&nbsp;
+    
+    #<a href="/tags/storage/">storage</a>&nbsp;
+    
+  </span>
+  
+
+  
+
+  
+    <div class="table-of-contents">
+      <h2>
+        
+          Table of Contents
+        
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#memory-stack-allocator">Memory Stack Allocator</a></li>
+    <li><a href="#memory-offsets">Memory Offsets</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#cpu---gpu">CPU -&gt; GPU</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <p>In this post I&rsquo;ll experiment an idea to keep pointers of a memory block
+between CPU and GPU. The motivation here is to allow ourselves
+to allocate memory and instantiate objects on CPU side and be able
+to use their <em>memory addresses</em> in GPU.</p>
+<p>Of course addresses change after we copy our data to the GPU! But I want
+to use a very basic idea: store memory address offsets instead of
+actual memory addresses.</p>
+<p>To make things easier (or possible) I&rsquo;ll will use my own memory allocator, which will provide offsets instead of addresses whenever you allocate new
+blocks of memory.</p>
+<h2 id="memory-stack-allocator">Memory Stack Allocator<a href="#memory-stack-allocator" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>There are several types of memory allocators out there with lots of
+cool features, I&rsquo;ll pick one of the simplest: the <strong>Stack Allocator</strong>.</p>
+<p>The Stack Allocator works just like a stack. Memory blocks are allocated
+contiguously, one after the other. The image bellow shows 3 allocated blocks,
+with indices <code>0</code>, <code>1</code> and <code>2</code>. The pointer <code>3</code> represents what will be the
+location of the next allocated block. <code>c</code> is the total capacity of the stack.</p>
+
+  <img src="/img/posts/stackmemory/stack1.svg"  class="center"  />
+
+
+<p>Being a stack, you are not allowed to free any block that is not in
+the top. So if we want to free the block <code>1</code>, <code>2</code> will be also destroyed.
+If the stack never changes in size or move in memory, we could just return
+the actual address of each block. But that is not our goal here.</p>
+<h2 id="memory-offsets">Memory Offsets<a href="#memory-offsets" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Remember, we want to send data to the GPU and be able to use the same
+<em>indices</em> to access our data (just like if we had an array). The solution
+here is to return the offset (in bytes) of the allocated block.</p>
+<p>Imagine our previous example: If block <code>0</code> has 64 bytes in size, block <code>1</code>
+has 640 bytes, and block <code>2</code> has 100 bytes. The <em>pointers</em> to these blocks
+will be respectively <code>0</code>, <code>64</code> and <code>704</code>.</p>
+
+  <img src="/img/posts/stackmemory/stack2.svg"  class="center"  />
+
+
+<h2 id="implementation">Implementation<a href="#implementation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>So now, instead of a pointer we may have an <code>AddressIndex</code> (this is just
+an arbitrary name) that will store the stack offset:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AddressIndex</span> {
+  AddressIndex(std<span style="color:#f92672">::</span>size_t id) <span style="color:#f92672">:</span> id(id) {}
+  <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>size_t id;
+};
+</code></pre></div><p>Notice that we could define some rules, such as an address index with id <code>0</code>
+representing <code>nullptr</code> (given the proper modifications).</p>
+<p>We will need to access the stack whenever we access our allocated objects
+&ndash; unless we store the pointer as well. It is ok for me, since the goal here
+is to ease the task of keeping the relations between data.</p>
+<p>The <code>MemoryStackAllocator</code> class interface goes like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MemoryStackAllocator</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+  MemoryStackAllocator(std<span style="color:#f92672">::</span>size_t capacity_in_bytes);
+  <span style="color:#75715e">// The &#34;push&#34; method of our stack
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, <span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">... </span><span style="color:#a6e22e">P</span><span style="color:#f92672">&gt;</span>
+  AddressIndex allocate(P <span style="color:#f92672">&amp;&amp;</span>... params);
+  <span style="color:#75715e">// The &#34;pop&#34; method, free all blocks down to the given marker
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">freeTo</span>(AddressIndex handle);
+  <span style="color:#75715e">// The access for a given stack element (not just &#34;top&#34;)
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+  T <span style="color:#f92672">*</span>get(AddressIndex handle);
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+  <span style="color:#75715e">// Stack memory
+</span><span style="color:#75715e"></span>  u8 <span style="color:#f92672">*</span> data_;
+  <span style="color:#75715e">// Total stack memory size in bytes
+</span><span style="color:#75715e"></span>  std<span style="color:#f92672">::</span>size_t capacity_;
+  <span style="color:#75715e">// Index to the top of the stack
+</span><span style="color:#75715e"></span>  std<span style="color:#f92672">::</span>size_t marker_;
+};
+</code></pre></div><p>We could reproduce our example this way:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">A</span> {...}; <span style="color:#75715e">// 64 bytes
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">B</span> {...}; <span style="color:#75715e">// 640 bytes
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">C</span> {...}; <span style="color:#75715e">// 100 bytes
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// create a stack with 1kB of capacity
+</span><span style="color:#75715e"></span>MemoryStackAllocator <span style="color:#a6e22e">stack_allocator</span>(<span style="color:#ae81ff">1024</span>);
+<span style="color:#75715e">// allocate our objects
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> a <span style="color:#f92672">=</span> stack_allocator.allocate<span style="color:#f92672">&lt;</span>A<span style="color:#f92672">&gt;</span>(<span style="color:#75715e">/*A ctor params*/</span>);
+<span style="color:#66d9ef">auto</span> b <span style="color:#f92672">=</span> stack_allocator.allocate<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>(<span style="color:#75715e">/*B ctor params*/</span>);
+<span style="color:#66d9ef">auto</span> c <span style="color:#f92672">=</span> stack_allocator.allocate<span style="color:#f92672">&lt;</span>C<span style="color:#f92672">&gt;</span>(<span style="color:#75715e">/*C ctor params*/</span>);
+<span style="color:#75715e">// Now, if we want to access each object we do
+</span><span style="color:#75715e"></span>stack_allocator.get<span style="color:#f92672">&lt;</span>A<span style="color:#f92672">&gt;</span>(a)<span style="color:#f92672">-&gt;</span>... <span style="color:#75715e">// A method, field..
+</span><span style="color:#75715e"></span>stack_allocator.get<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>(b)<span style="color:#f92672">-&gt;</span>... <span style="color:#75715e">// B method, field..
+</span><span style="color:#75715e"></span>stack_allocator.get<span style="color:#f92672">&lt;</span>C<span style="color:#f92672">&gt;</span>(c)<span style="color:#f92672">-&gt;</span>... <span style="color:#75715e">// C method, field..
+</span></code></pre></div><p>I know, that is not convenient. But this is just as simple as it can be.</p>
+<h2 id="cpu---gpu">CPU -&gt; GPU<a href="#cpu---gpu" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>The cool thing is that we can easily allocate and prepare our memory
+in CPU side and send it all to the GPU (as normally happens), but
+access data the exact same way.</p>
+<p>Again, this is just an alternative. There are a bunch of creative ways
+to access data in GPU. It really depends on your goals here.</p>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

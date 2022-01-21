@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gpu on filipecn</title>
+    <link>/tags/gpu/</link>
+    <description>Recent content in gpu on filipecn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 02 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/gpu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A path tracer with CUDA - prt 4</title>
+      <link>/post/ptracer-gpu4/</link>
+      <pubDate>Sat, 02 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu4/</guid>
+      <description>What we have so far:
+ Polymorphism is now forbidden! Instead, we store a pointer to the child object and cast properly before access (part 3) In practice, I&amp;rsquo;ll be casting objects with macros  Relations between classes In PBRT you have a class Shape that is inherited by classes such as Sphere and Cylinder. A Shape child stores the geometric information for a particular shape &amp;ndash; vertices, faces, position, scale, etc.</description>
+    </item>
+    
+    <item>
+      <title>GPU/CPU Memory Stack Allocator</title>
+      <link>/post/gpu_memory_allocator/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/gpu_memory_allocator/</guid>
+      <description>In this post I&amp;rsquo;ll experiment an idea to keep pointers of a memory block between CPU and GPU. The motivation here is to allow ourselves to allocate memory and instantiate objects on CPU side and be able to use their memory addresses in GPU.
+Of course addresses change after we copy our data to the GPU! But I want to use a very basic idea: store memory address offsets instead of actual memory addresses.</description>
+    </item>
+    
+    <item>
+      <title>A path tracer with CUDA - prt 3</title>
+      <link>/post/ptracer-gpu3/</link>
+      <pubDate>Sun, 05 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu3/</guid>
+      <description>What we have so far:
+ The image will be rendered in the GPU in groups of tiles. Each tile covers a sub-region of the image with 16x16 pixels. (part 1) A set of rays is generated for each pixel. Each ray direction is based on a random sample of the pixel&amp;rsquo;s area. We pre-compute and store all samples with a SamplePoll structure. (part 2)  The next topic is the way we will handle our objects (scene objects, materials, lights, etc&amp;hellip;).</description>
+    </item>
+    
+    <item>
+      <title>A path tracer with CUDA - prt 2</title>
+      <link>/post/ptracer-gpu2/</link>
+      <pubDate>Fri, 03 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu2/</guid>
+      <description>In the last post I decide to follow the tile strategy. We want to process tiles of pixels in parallel. Each thread will handle a single tile by rendering all its pixels sequentially, then each tile will be indexed based on the thread&amp;rsquo;s grid position (CUDA):
+// tile index hermes::index2 tile_index(threadIdx.x + blockIdx.x * blockDim.x, threadIdx.y + blockIdx.y * blockDim.y);  The first consequence here is that multiple tiles will dispute for the local memory in the streaming multi-processor.</description>
+    </item>
+    
+    <item>
+      <title>A path tracer with CUDA - prt 1</title>
+      <link>/post/ptracer-gpu/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ptracer-gpu/</guid>
+      <description>This will be my next journey. I finally organized my self to get into the PBRT book. The idea for this project is to implement it (well.. at least part of it). Also, to make thinks even harder I decided to make use of the GPU. Hopefully, it will be my own version of PBRT in CUDA.
+ Important note: this will be my learning exercise, not only about rendering but also about CUDA.</description>
+    </item>
+    
+  </channel>
+</rss>

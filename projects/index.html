@@ -108,8 +108,10 @@ Comming up  Disney diffuse model Anisotropic models   GLSL Editor  A simple shad
       <div class="menu-trigger">menu</div>
     
   </div>
+
   <center>
-  CS PhD canditate
+<p></p>
+  <strong> CS PhD canditate </strong> | filipedecn@gmail.com | <a href="https://github.com/filipecn">github</a> | <a href="https://www.linkedin.com/in/filipecn/">linkedin</a>
   </center>
   
     <nav class="menu">
@@ -356,13 +358,6 @@ A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a
 </ul>
 
         <h1 class="post-title">
-          Vulkan
-        </h1>
-
-
-
-
-        <h1 class="post-title">
           Rust Experiments
         </h1>
 
@@ -372,27 +367,29 @@ A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a
 <p>In order to get into rust I started implementing a ray tracer following Peter Shirley&rsquo;s ray tracing <a href="https://drive.google.com/drive/folders/14yayBb9XiL16lmuhbYhhvea8mKUUK77W">book series</a>.</p>
 <p><img src="/img/projects/render.png" alt=""></p>
 <blockquote>
-<p>I’ve also been packing everything I do into a set of libraries which eventually serve me as frameworks to new projects
+<p>I’ve also been packing everything I do into a set of libraries that eventually serve me as frameworks to new projects
 (and hopefully help anyone who might use them).</p>
 </blockquote>
 
         <h1 class="post-title">
-          ponos
+          hermes
         </h1>
 
 
 
-<p><a href="https://github.com/filipecn/ponos">Ponos</a> is a C++ utility lib containing a wide range of classes and algorithms. Currently ponos comprises the following pieces:</p>
+<p><a href="https://github.com/filipecn/hermes">Hermes</a> is a C++ utility lib containing a wide range of classes and algorithms. It serves as a swiss-knife for several types of projects.
+Most of hermes features are also implemented in <code>CUDA</code>, which can be optionally enabled.</p>
+<p>Currently hermes comprises the following pieces:</p>
 <ul>
 <li>
 <p><strong>Geometry</strong>: points, vectors, matrices, transformations, intersection tests, quaternions, etc;</p>
 </li>
 <li>
-<p><strong>Storage</strong>: memory blocks, multi-dimensional arrays, array of structures;</p>
+<p><strong>Storage</strong>: memory blocks, multi-dimensional arrays, array of structures, texture memory regions;</p>
 </li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    <span style="color:#75715e">// Example of an Array of Structures usage 
-</span><span style="color:#75715e"></span>    ponos<span style="color:#f92672">::</span>AoS aos;
+</span><span style="color:#75715e"></span>    hermes<span style="color:#f92672">::</span>AoS aos;
     <span style="color:#66d9ef">auto</span> vec3_field_id <span style="color:#f92672">=</span> aos.pushField<span style="color:#f92672">&lt;</span>vec3<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;v&#34;</span>);
     <span style="color:#66d9ef">auto</span> f32_field_id <span style="color:#f92672">=</span> aos.pushField<span style="color:#f92672">&lt;</span>f32<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;f&#34;</span>);
     aos.resize(<span style="color:#ae81ff">4</span>);
@@ -402,12 +399,12 @@ A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a
       acc.valueAt<span style="color:#f92672">&lt;</span>f32<span style="color:#f92672">&gt;</span>(f32_field_id, i) <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.f</span> <span style="color:#f92672">*</span> i;
     }
 </code></pre></div><ul>
-<li><strong>Numeric</strong>: interpolation, differential operators, numerical grids;</li>
+<li><strong>Numeric</strong>: interpolation, differential operators, staggered grids, finite difference matrices;</li>
 <li><strong>BLAS</strong>: Linear Algebra stuff, PCG, RBF;</li>
 <li><strong>Structures</strong>: octree, BVH, half-edge meshes, morton code ordering;</li>
-<li><strong>Common</strong>: file system (bash-like) methods, string utils;</li>
+<li><strong>Common</strong>: file system (bash-like) methods, string utils, reduce methods, marching cubes;</li>
 </ul>
-<p>and other utilities such as thread pools, colored console output, memory dump, fast sweep algorithms, etc.</p>
+<p>and other utilities such as thread pools, colored console output, memory dumper, fast sweep algorithms, etc.</p>
 <h2 id="comming-up-2">Comming up</h2>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> color struct fields in a memory dump inside the console.</li>
@@ -419,9 +416,62 @@ A simple <a href="https://github.com/filipecn/glsl-experiments">shader editor</a
 
 
 
-<a href="https://github.com/filipecn/circe">Circe</a> is a graphics engine written on top of OpenGL (and Vulkan in the future).
+<a href="https://github.com/filipecn/circe">Circe</a> is a graphics engine written on top of <strong>OpenGL</strong> (and <strong>Vulkan</strong>).
 Initially, the goal was just to produce some lib to help me on building visualizations of my research data,
 but now there is a lot more I can do with it than I previously expected :)</p>
+<p><img src="/img/projects/shadows.png" alt=""></p>
+<p><div class="flip">
+    <div class="front" style="background-image: url(/img/vulkan.gif)">
+    
+    
+    </div>
+    
+    <div class="back" style="background-image: url(/img/vvk.gif)">
+        
+        
+        </div>
+    
+</div>
+
+<div class="flip">
+    <div class="front" style="background-image: url(/img/projects/shadows.gif)">
+    
+    
+    </div>
+    
+    <div class="back" style="background-image: url(/img/vvk.gif)">
+        
+        
+        </div>
+    
+</div>
+
+<div class="flip">
+    <div class="front" style="background-image: url(/img/projects/picking.gif)">
+    
+    
+    </div>
+    
+    <div class="back" style="background-image: url(/img/vvk.gif)">
+        
+        
+        </div>
+    
+</div>
+
+<div class="flip">
+    <div class="front" style="background-image: url(/img/projects/deferred.gif)">
+    
+    
+    </div>
+    
+    <div class="back" style="background-image: url(/img/vvk.gif)">
+        
+        
+        </div>
+    
+</div>
+</p>
 <p>That is what Circe can provide for now:</p>
 <ul>
 <li><strong>UI</strong>: imgui integration, gizmos, trackball, reference grids;</li>
@@ -449,21 +499,6 @@ but now there is a lot more I can do with it than I previously expected :)</p>
 <li><input checked="" disabled="" type="checkbox"> mem singleton</li>
 <li><input disabled="" type="checkbox"> add memory contexts</li>
 </ul>
-<p>
-        <h1 class="post-title">
-          hermes
-        </h1>
-
-
-
-<a href="https://github.com/filipecn/hermes">Hermes</a> should be a version of ponos for CUDA. However there is not much done yet.</p>
-<ul>
-<li><strong>Geometry</strong>: bbox, matrix, point;</li>
-<li><strong>Common</strong>: reduce methods, marching cubes;</li>
-<li><strong>Numeric</strong>: interpolation, staggered grids, finite difference matrices;</li>
-<li><strong>Storage</strong>: memory blocks, arrays, texture memory regions;</li>
-</ul>
-<h2 id="comming-up-5">Comming up</h2>
 
     </div>
   

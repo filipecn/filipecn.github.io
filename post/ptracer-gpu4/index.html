@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>A path tracer with CUDA - prt 4 :: filipecn</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="What we have so far:
+ Polymorphism is now forbidden! Instead, we store a pointer to the child object and cast properly before access (part 3) In practice, I&amp;rsquo;ll be casting objects with macros  Relations between classes In PBRT you have a class Shape that is inherited by classes such as Sphere and Cylinder. A Shape child stores the geometric information for a particular shape &amp;ndash; vertices, faces, position, scale, etc." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/post/ptracer-gpu4/" />
+
+
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="A path tracer with CUDA - prt 4">
+<meta property="og:description" content="Memory: CPU pointers - GPU pointers!" />
+<meta property="og:url" content="/post/ptracer-gpu4/" />
+<meta property="og:site_name" content="filipecn" />
+
+  
+    <meta property="og:image" content="/favicon.ico">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-10-02 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+<link rel="stylesheet" href="/publication_container.5744e18b41c64a2d3769f36cb2ca6ffbc84b1fbdc7c7b547c7230eb15dd61432.css">
+
+<link rel="stylesheet" href="/css/projectcard.css">
+<link rel="stylesheet" href="/css/smallprojectcard.css">
+<link rel="stylesheet" href="/css/faicon.css">
+
+
+<script src="/js/posts/polygon.js"></script> 
+<script src="/js/posts/two.min.js"></script> 
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    filipecn
+  </div>
+</a>
+
+    </div>
+    
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+
+  <center>
+<p></p>
+  <strong> CS PhD canditate </strong> | filipedecn@gmail.com | <a href="https://github.com/filipecn">github</a> | <a href="https://www.linkedin.com/in/filipecn/">linkedin</a>
+  </center>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/cv">CV</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+        
+          <li><a href="/publications">Publications</a></li>
+        
+      
+        
+          <li><a href="/post">Posts</a></li>
+        
+      
+        
+          <li><a href="/drawing">Drawing</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/cv">CV</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+      
+        <li><a href="/publications">Publications</a></li>
+      
+    
+      
+        <li><a href="/post">Posts</a></li>
+      
+    
+      
+        <li><a href="/drawing">Drawing</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="/post/ptracer-gpu4/">A path tracer with CUDA - prt 4</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-10-02 
+      </span>
+    
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="/tags/rendering/">rendering</a>&nbsp;
+    
+    #<a href="/tags/gpu/">gpu</a>&nbsp;
+    
+  </span>
+  
+
+  
+
+  
+    <div class="table-of-contents">
+      <h2>
+        
+          Table of Contents
+        
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#relations-between-classes">Relations between classes</a></li>
+    <li><a href="#so-what-is-the-problem">So, what is the problem?</a></li>
+    <li><a href="#the-memory-arena">The Memory Arena</a></li>
+    <li><a href="#notes">Notes</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <p><strong>What we have so far:</strong></p>
+<ul>
+<li>Polymorphism is now forbidden! Instead, we store a pointer to the <em>child</em> object and cast properly before access (<a href="/post/ptracer-gpu3/">part 3</a>)</li>
+<li>In practice, I&rsquo;ll be casting objects with <a href="/post/vtables-vs-switches/">macros</a></li>
+</ul>
+<h2 id="relations-between-classes">Relations between classes<a href="#relations-between-classes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>In PBRT you have a class <code>Shape</code> that is inherited by classes such as <code>Sphere</code> and <code>Cylinder</code>. A <code>Shape</code> child stores the geometric information
+for a particular shape &ndash; vertices, faces, position, scale, etc. &ndash; and provides ray intersection tests.</p>
+<p>Different objects in the scene can use the same shape with different sizes, rotations and so on.
+Recalling from the <a href="/post/ptracer-gpu3/">previous post</a>, here is our <code>Shape</code> struct:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Shape</span> {
+  hermes<span style="color:#f92672">::</span>Transform o2w;                 <span style="color:#75715e">//!&lt; object space to world space transform
+</span><span style="color:#75715e"></span>  hermes<span style="color:#f92672">::</span>Transform w2o;                 <span style="color:#75715e">//!&lt; world space to object space transform
+</span><span style="color:#75715e"></span>  hermes<span style="color:#f92672">::</span>bbox3 bounds;                  <span style="color:#75715e">//!&lt; world space bounds
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>shape_data{<span style="color:#66d9ef">nullptr</span>};             <span style="color:#75715e">//!&lt; pointer to the child
+</span><span style="color:#75715e"></span>  ShapeType type{ShapeType<span style="color:#f92672">::</span>CUSTOM};     <span style="color:#75715e">//!&lt; child type
+</span><span style="color:#75715e"></span>  shape_flags flags{shape_flags<span style="color:#f92672">::</span>NONE};  <span style="color:#75715e">//!&lt; some useful flags
+</span><span style="color:#75715e"></span>};
+</code></pre></div><p>In our case, the <code>Shape</code> struct <em>puts</em> the shape in the scene through its world transform.
+The geometrical description of the shape
+is stored in the object deferred by the pointer <code>shape_data</code>. Multiple <code>Shape</code> instances may point to the same geometry.</p>
+
+  <img src="/img/posts/pbrt-cuda/shape_rel.svg"  class="center"  />
+
+
+<p>The PBRT uses the <code>Primitive</code> class to connect the shape to the shading. So each primitive has a <code>Shape</code> reference. Also,
+<code>Primitive</code> is an interface, since there are different types of primitives and the child class <code>GeometricPrimitive</code>
+is the one that uses a <code>Shape</code>.</p>
+
+  <img src="/img/posts/pbrt-cuda/prim_rel.svg"  class="center"  />
+
+
+<p>The scene is composed by a collection of different types of primitives. Our <code>Primitive</code> struct follows the same idea of the <code>Shape</code> struct,
+and in the end we will also have the following relation:</p>
+
+  <img src="/img/posts/pbrt-cuda/prim_rel2.svg"  class="center"  />
+
+
+<p>The <code>GeometricPrimitive</code> also has a reference to a type of <code>Material</code> and other objects, that are also designed as the <code>Shape</code> type.</p>
+<blockquote>
+<p>As you can see, there will be lots of pointers to manage :)</p>
+</blockquote>
+<h2 id="so-what-is-the-problem">So, what is the problem?<a href="#so-what-is-the-problem" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Well, create a scene with all those pointers is not hard &hellip; at most inconvenient. But one thing is for sure, its easier to
+do all this setup in the CPU (even more if you want to create an interactive application).</p>
+<p>The real problem with pointers is that once you transfer all your data to the GPU the pointers are not valid anymore.
+Once the data is stored in the GPU memory the same objects will be stored in totally different memory addresses.</p>
+<p>For the sake of fun and experiment, I&rsquo;ll try to use <strong>offset pointers</strong> instead. Instead of storing the raw pointer,
+each object will store the offset of the deferred object based on the initial address of the buffer. In other
+words, all data will be stored in a single buffer &ndash; just like people do with <em>memory manager</em> classes &ndash; and each address
+inside this buffer will be written as the offset to the buffer address.</p>
+<p>This way, we can build and maintain the entire scene in the CPU and send it to the GPU without worrying about all these pointers.</p>
+<h2 id="the-memory-arena">The Memory Arena<a href="#the-memory-arena" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>PBRT uses a class called <code>MemoryArena</code> to manage allocations. Here I&rsquo;ll (at least for now) use
+the <code>MemoryStackAllocator</code> (which I talk about <a href="/post/gpu_memory_allocator/">here</a>), that will serve to the same purposes &ndash; although with some limitations.</p>
+<p>Instead of pointers then, my <code>MemoryStackAllocator</code> return an <code>AddressIndex</code> for
+each allocated object, that can be used interchangeably between CPU and GPU.</p>
+<p>However I go one step further, and define a <code>Ptr</code> struct, that will hold the <code>AddressIndex</code> <strong>and</strong> the actual pointer:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Ptr</span> {
+    Ptr(hermes<span style="color:#f92672">::</span>AddressIndex address_index);
+    <span style="color:#75715e">// retrieve the actual pointer
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">get</span>();
+    <span style="color:#75715e">// computes and stores the pointer
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span>(hermes<span style="color:#f92672">::</span>StackAllocatorView m) {
+      ptr <span style="color:#f92672">=</span> m.get<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span>(address_index);
+    }
+  <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+    hermes<span style="color:#f92672">::</span>AddressIndex address_index;
+    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr{<span style="color:#66d9ef">nullptr</span>};
+  };
+</code></pre></div><p>Storing the pointer saves us the time of computing it every time we call <code>get()</code>. But wait, so what is the point of using
+this <code>AddressIndex</code> in the first place? It is just a convenient way of keeping track of our pointers. Sending the entire
+<code>MemoryStackAllocator</code> data to the GPU and just calling an <code>update</code> for all objects is much easier. Otherwise you would need
+to keep different object references at the same time when updating your pointers.</p>
+<blockquote>
+<p>The common method though, is to create everything in GPU side. No <code>AddressIndex</code> stuff, much easier!</p>
+</blockquote>
+<p>Anyways, here is the updated <code>Shape</code> struct:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Shape</span> {
+  ...
+  Ptr shape_data{<span style="color:#66d9ef">nullptr</span>};             <span style="color:#75715e">//!&lt; pointer to the child
+</span><span style="color:#75715e"></span>  ...
+};
+</code></pre></div><h2 id="notes">Notes<a href="#notes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><a href="https://github.com/filipecn/helios">source code</a></li>
+</ul>
+<blockquote>
+<p>The <a href="/post/ptracer-gpu3/">next</a> post talks about &hellip; TODO: no next post yet :)</p>
+</blockquote>
+
+      </div></div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2021 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

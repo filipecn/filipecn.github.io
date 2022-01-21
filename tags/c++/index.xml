@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>c&#43;&#43; on filipecn</title>
+    <link>/tags/c&#43;&#43;/</link>
+    <description>Recent content in c&#43;&#43; on filipecn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPU/CPU Memory Stack Allocator</title>
+      <link>/post/gpu_memory_allocator/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/gpu_memory_allocator/</guid>
+      <description>In this post I&amp;rsquo;ll experiment an idea to keep pointers of a memory block between CPU and GPU. The motivation here is to allow ourselves to allocate memory and instantiate objects on CPU side and be able to use their memory addresses in GPU.
+Of course addresses change after we copy our data to the GPU! But I want to use a very basic idea: store memory address offsets instead of actual memory addresses.</description>
+    </item>
+    
+    <item>
+      <title>vtables vs switches</title>
+      <link>/post/vtables-vs-switches/</link>
+      <pubDate>Tue, 07 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/vtables-vs-switches/</guid>
+      <description>Imagine this: you have a super class Letter and the whole alphabet of classes &amp;ndash; A, &amp;hellip;, Z &amp;ndash; that inherits from it. All children implement a method of Letter called spell that returns a char with the ascii of its respective letter. So, for instance, class A::spell() returns &#39;a&#39;.
+Now you have an array with thousands of thousands of Letter children and you want to call spell for each of them &amp;ndash; the classic usage of polymorphism.</description>
+    </item>
+    
+    <item>
+      <title>Memory Dumps</title>
+      <link>/post/memory_dumps/</link>
+      <pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/memory_dumps/</guid>
+      <description>I&amp;rsquo;ve been looking at memory dumps often lately. Since I usually (always) debug with &amp;lsquo;printf&amp;rsquo;, I needed a better visual for my memory dumps. I decided to do a simple memory dumper:
+And added some features:
+ Colored output Different data types (hex, decimal, &amp;hellip;) You can specify different regions with different colors and sub-regions Print actual data values Array elements alternate between bold and normal styles Display cache alignment  Here is a example:</description>
+    </item>
+    
+    <item>
+      <title>Scott Meyers&#39; Universal References</title>
+      <link>/post/uref/</link>
+      <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/uref/</guid>
+      <description>I came across an another very clarifying talk of the legend Scott Meyers presenting Universal References in C++11 back in 2012. In this talk he calls our attention to the misleading usage of template parameters T&amp;amp;&amp;amp;, which we usually assume being rvalue references in all situations. It happens that it is not always the case.
+The fact is that T&amp;amp;&amp;amp; becomes a rvalue reference or a lvalue reference depending on the case.</description>
+    </item>
+    
+  </channel>
+</rss>

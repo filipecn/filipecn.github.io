@@ -4,8 +4,83 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-10-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/ptracer-gpu4/</loc>
+    <lastmod>2021-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/gpu/</loc>
+    <lastmod>2021-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2021-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rendering/</loc>
+    <lastmod>2021-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2021-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/c&#43;&#43;/</loc>
+    <lastmod>2021-10-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/gpu_memory_allocator/</loc>
+    <lastmod>2021-10-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/storage/</loc>
+    <lastmod>2021-10-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/vtables-vs-switches/</loc>
+    <lastmod>2021-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/ptracer-gpu3/</loc>
+    <lastmod>2021-09-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/ptracer-gpu2/</loc>
+    <lastmod>2021-09-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/ptracer-gpu/</loc>
+    <lastmod>2021-07-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/hermes/</loc>
+    <lastmod>2021-06-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/memory_dumps/</loc>
+    <lastmod>2021-06-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/uref/</loc>
+    <lastmod>2021-05-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -19,27 +94,12 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2021-05-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/pbr-area-lights/</loc>
     <lastmod>2021-04-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/real-time/</loc>
-    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/rendering/</loc>
     <lastmod>2021-04-13T00:00:00+00:00</lastmod>
   </url>
   
